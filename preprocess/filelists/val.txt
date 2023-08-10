@@ -1,0 +1,2 @@
+/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset_raw/SZA_CTRL/2_SZA-Doves_In_The_Wind.wav
+/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset_raw/SZA_CTRL/8_SZA-Wavy.wav

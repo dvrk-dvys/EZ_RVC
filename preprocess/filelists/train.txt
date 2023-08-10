@@ -1,0 +1,14 @@
+/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset_raw/SZA_CTRL/6_SZA - The Weekend (Filtered Acapella)_(Vocals).wav
+/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset_raw/SZA_CTRL/13_SZA - Broken Clocks (Filtered Acapella)_(Vocals).wav
+/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset_raw/SZA_CTRL/14_SZA - Anything (Filtered Acapella)_(Vocals).wav
+/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset_raw/SZA_CTRL/1_SZA - Supermodel (Filtered Acapella)_(Vocals).wav
+/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset_raw/SZA_CTRL/7_SZA - Go Gina (Filtered Acapella)_(Vocals).wav
+/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset_raw/SZA_CTRL/4_SZA - Drew Barrymore (Filtered Acapella)_(Vocals).wav
+/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset_raw/SZA_CTRL/11_SZA - Kill Bill (Vocals (Audio))_(Vocals).wav
+/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset_raw/SZA_CTRL/15_SZA - 20 Something (Filtered Acapella)_(Vocals).wav
+/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset_raw/SZA_CTRL/12_SZA - Garden (Say It Like Dat) (Filtered Acapella)_(Vocals).wav
+/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset_raw/SZA_CTRL/SZA_billboard_raw_interview.wav
+/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset_raw/SZA_CTRL/3_SZA-Love Galore.wav
+/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset_raw/SZA_CTRL/9_SZA-Pretty Little Birds.wav
+/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset_raw/SZA_CTRL/5_SZA - Prom (Filtered Acapella)_(Vocals).wav
+/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset_raw/SZA_CTRL/10_SZA - Normal Girl (Filtered Acapella)_(Vocals).wav
