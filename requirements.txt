@@ -39,7 +39,6 @@ GitPython==3.1.32
 google-auth==2.16.2
 google-auth-oauthlib==0.4.6
 google-pasta==0.2.0
-googleads==3.8.0
 grpcio==1.51.3
 h11==0.14.0
 h5py==3.8.0
