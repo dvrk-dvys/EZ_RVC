@@ -613,7 +613,7 @@ class TransformerEncoder(nn.Module):
 class TransformerSentenceEncoderLayer(nn.Module):
     """
     Implements a Transformer Encoder Layer used in BERT/XLM style pre-trained
-    models.
+    model_dir.
     """
 
     def __init__(

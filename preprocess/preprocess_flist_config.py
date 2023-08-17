@@ -12,7 +12,7 @@ from tqdm import tqdm
 import diffusion_logger_utils as du
 
 # config_template = json.load(open("../configs_template/config_template.json"))
-config_template = json.load(open("../preprocess/configs_template/config_template.json"))
+# config_template = json.load(open("../preprocess/configs_template/config_template.json"))
 # /Users/jordanharris/Code/PycharmProjects/EZ_RVC/preprocess/configs_template/config_template.json
 pattern = re.compile(r'^[\.a-zA-Z0-9_\/]+$')
 
@@ -28,16 +28,16 @@ def get_wav_duration(file_path):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--train_list", type=str, default="./filelists/train.txt", help="path to train list")
-    parser.add_argument("--val_list", type=str, default="./filelists/val.txt", help="path to val list")
+    parser.add_argument("--train_list", type=str, default="./dataset/filelists/train.txt", help="path to train list")
+    parser.add_argument("--val_list", type=str, default="./dataset/filelists/val.txt", help="path to val list")
     # parser.add_argument("--source_dir", type=str, default="./dataset/44k", help="path to source dir")
-    parser.add_argument("--source_dir", type=str, default="/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset_raw/SZA_CTRL", help="path to source dir")
-
+    parser.add_argument("--source_dir", type=str, default="/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset/", help="path to source dir")
     parser.add_argument("--speech_encoder", type=str, default="hubertsoft", help="choice a speech encoder|'vec768l12','vec256l9','hubertsoft','whisper-ppg','cnhubertlarge','dphubert','whisper-ppg-large','wavlmbase+'")
-
-    parser.add_argument("--vol_aug", action="store_true", help="Whether to use volume embedding and volume augmentation")
+    parser.add_argument("--vol_aug", default=False, action="store_true", help="Whether to use volume embedding and volume augmentation")
+    parser.add_argument("--tiny", default=False, action="store_true", help="Whether to train sovits tiny")
     args = parser.parse_args()
-    
+
+    config_template = json.load(open("preprocess/configs_template/config_tiny_template.json")) if args.tiny else json.load(open("preprocess/configs_template/config_template.json"))
     train = []
     val = []
     idx = 0
@@ -48,9 +48,11 @@ if __name__ == "__main__":
     #     spk_id += 1
     #     wavs = ["/".join([args.source_dir, speaker, i]) for i in os.listdir(os.path.join(args.source_dir, speaker))]
     # Assuming the speaker's data is in the root of args.source_dir
-    spk_dict = {"speaker": 0}  # Assign the speaker ID directly
-    wav_path = "/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset_raw/SZA_CTRL"
-    wavs = [os.path.join(args.source_dir, i) for i in os.listdir(wav_path)]
+    spk_dict = {"sza": 0}  # Assign the speaker ID directly
+    # wav_path = "/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset_raw/sza_resample_splits"
+    wav_path = "/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset/44k/sza"
+
+    wavs = [os.path.join(args.source_dir + '44k/sza', i) for i in os.listdir(wav_path) if i.endswith('.wav')]
 
     # wavs = ''
     new_wavs = []
@@ -84,13 +86,13 @@ if __name__ == "__main__":
             f.write(wavpath + "\n")
 
 
-    d_config_template = du.load_config("configs_template/diffusion_template.yaml")
+    d_config_template = du.load_config("preprocess/configs_template/diffusion_template.yaml")
     d_config_template["model"]["n_spk"] = spk_id
     d_config_template["data"]["encoder"] = args.speech_encoder
     d_config_template["spk"] = spk_dict
     
     config_template["spk"] = spk_dict
-    config_template["model"]["n_speakers"] = spk_id
+    config_template["model"]["n_speakers"] = len(spk_dict)
     config_template["model"]["speech_encoder"] = args.speech_encoder
     
     if args.speech_encoder == "vec768l12" or args.speech_encoder == "dphubert" or args.speech_encoder == "wavlmbase+":
@@ -109,8 +111,11 @@ if __name__ == "__main__":
     if args.vol_aug:
         config_template["train"]["vol_aug"] = config_template["model"]["vol_embedding"] = True
 
+    current_directory = os.getcwd()
     logger.info("Writing to configs/config.json")
-    with open("configs/config.json", "w") as f:
+    print(f"Current Working Directory: {current_directory}")
+
+    with open("dataset/configs/config.json", "w") as f:
         json.dump(config_template, f, indent=2)
     logger.info("Writing to configs/diffusion.yaml")
-    du.save_config("configs/diffusion.yaml", d_config_template)
+    du.save_config("dataset/configs/diffusion.yaml", d_config_template)

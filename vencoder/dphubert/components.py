@@ -1,4 +1,4 @@
-"""Building blocks for speech SSL models supporting pruning.
+"""Building blocks for speech SSL model_dir supporting pruning.
 
 Originally from:
 https://github.com/pytorch/audio/blob/main/torchaudio/models/wav2vec2/components.py

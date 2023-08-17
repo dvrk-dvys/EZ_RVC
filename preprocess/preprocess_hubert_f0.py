@@ -16,13 +16,13 @@ from tqdm import tqdm
 import diffusion.logger.utils as du
 import utils
 from diffusion.vocoder import Vocoder
-from models.modules.mel_processing import spectrogram_torch
+from model_dir.modules.mel_processing import spectrogram_torch
 
 logging.getLogger("numba").setLevel(logging.WARNING)
 logging.getLogger("matplotlib").setLevel(logging.WARNING)
 
-hps = utils.get_hparams_from_file("preprocess/configs/config.json")
-dconfig = du.load_config("preprocess/configs/diffusion.yaml")
+hps = utils.get_hparams_from_file("/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset/configs/config.json")
+dconfig = du.load_config("/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset/configs/diffusion.yaml")
 sampling_rate = hps.data.sampling_rate
 hop_length = hps.data.hop_length
 speech_encoder = hps["model"]["speech_encoder"]
@@ -144,7 +144,7 @@ if __name__ == "__main__":
         '--f0_predictor', type=str, default="rmvpe", help='Select F0 predictor, can select crepe,pm,dio,harvest,rmvpe,fcpe|default: pm(note: crepe is original F0 using mean filter)'
     )
     parser.add_argument(
-        '--num_processes', type=int, default=1, help='You are advised to set the number of processes to the same as the number of CPU cores'
+        '--num_processes', type=int, default=4, help='You are advised to set the number of processes to the same as the number of CPU cores'
     )
     args = parser.parse_args()
     f0p = args.f0_predictor

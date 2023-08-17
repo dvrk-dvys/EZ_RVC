@@ -40,7 +40,7 @@
 # But if you need to do this, under MDX-Net you can find Reverb HQ,
 # which will export the reverbless audio as the ‘No Other’ option. Oftentimes, this isn’t enough.
 # If that did nothing, (or just didn't do enough),
-# you can try to process the vocal output through the VR Architecture models in UVR to remove echo
+# you can try to process the vocal output through the VR Architecture model_dir in UVR to remove echo
 # and reverb that remains using De-Echo-DeReverb. If that still wasn't enough, somehow,
 # you can use the De-Echo normal model on the output, which is the most
 # aggressive echo removal model of them all.
@@ -97,7 +97,7 @@ librosa.show_versions()
 
 
 
-# preprocess_speaker_diarization.py: This script might be used for speaker diarization, which is the process of separating an audio stream into segments based on the speaker. This could be useful in voice conversion tasks if you want to train separate models for each speaker or if you want to ensure that the training data for each speaker is balanced.
+# preprocess_speaker_diarization.py: This script might be used for speaker diarization, which is the process of separating an audio stream into segments based on the speaker. This could be useful in voice conversion tasks if you want to train separate model_dir for each speaker or if you want to ensure that the training data for each speaker is balanced.
 #
 # preprocess_split.py: As you've already posted the code for this, it's clear that this script is used to split audio files into shorter segments. This involves loading an audio file, splitting it into segments where the sound level is below a certain threshold, and saving each segment as a separate audio file.
 #

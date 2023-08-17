@@ -27,7 +27,7 @@ from slicer2 import Slicer
 
 # contentvec
 # !wget -P pretrain/ https://huggingface.co/lj1995/VoiceConversionWebUI/resolve/main/hubert_base.pt -O checkpoint_best_legacy_500.pt
-hubert_base = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/preprocess/checkpoint_best_legacy_500.pt'
+hubert_base = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/model_dir/checkpoint_best_legacy_500.pt'
 # Alternatively, you can manually download and place it in the hubert directory
 
 
@@ -66,7 +66,7 @@ def slice(wav_path, file_name):
     for i, chunk in enumerate(chunks):
         if len(chunk.shape) > 1:
             chunk = chunk.T  # Swap axes if the audio is stereo.
-        soundfile.write(f'/Users/jordanharris/Code/PycharmProjects/EZ_RVC/output/preprocess/sza_slices/{file_name}_{i}.wav', chunk, sr)  # Save sliced audio files with soundfile.
+        soundfile.write(f'/preprocess/output/sza_slices_22050/{file_name}_{i}.wav', chunk, sr)  # Save sliced audio files with soundfile.
         flipped_chunks.append(chunk)
     return flipped_chunks
 
@@ -205,17 +205,17 @@ def speaker_diarization(y_path, sr, min_speakers=1, max_speakers=1, huggingface_
 
     return diarization
 
-# 3. **Feature Extraction**: The next step is to extract features from the audio segments. The type of features extracted can vary depending on the specific model being used. Common types of features used in voice conversion models include:
+# 3. **Feature Extraction**: The next step is to extract features from the audio segments. The type of features extracted can vary depending on the specific model being used. Common types of features used in voice conversion model_dir include:
 #
 #    - **Spectrogram**: This is a 2D representation of the audio signal that shows how the frequencies present in the signal change over time. It can be calculated using the Fourier Transform.
 #
 #    - **Mel-frequency cepstral coefficients (MFCCs)**: These are a type of feature that represents the short-term power spectrum of a sound. They are based on a linear cosine transform of a log power spectrum on a nonlinear mel scale of frequency.
 #
-#    - **F0 (Fundamental Frequency)**: This represents the pitch of the speech and is often used in voice conversion models.
+#    - **F0 (Fundamental Frequency)**: This represents the pitch of the speech and is often used in voice conversion model_dir.
 #
 #    - **Vocal Tract Length Perturbation (VTLP)**: It's a technique to augment the audio data by simulating speakers with different vocal tract lengths.
 #
-#    - **Phoneme or text information**: Some models also use phoneme or text information as additional features.
+#    - **Phoneme or text information**: Some model_dir also use phoneme or text information as additional features.
 #
 def load_wav_to_torch(full_path):
   sampling_rate, data = read(full_path)
@@ -284,11 +284,11 @@ if __name__ == '__main__':
 
     # input_dir = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/input/SZA_CTRL/'  # Replace with your actual input directory
     # input_dir = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset_raw/SZA_CTRL/'  # Replace with your actual input directory
-    output_dir = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/output/preprocess/'
+    output_dir = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/preprocess/output/'
     # speaker diairization test
     # file = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/input/SZA_CTRL/3_SZA - Love Galore (feat. Travis Scott) (Filtered Acapella)_(Vocals).wav'
 
-    target_sample_rate = 22050  # Replace with your desired sample rate
+    target_sample_rate = 44100 #44100 is industry standard for cd's  # Replace with your desired sample rate
     # A common sample rate for music is 44.1 kHz.
     #  16 kHz is commonly used because it captures most of the important information in human speech while reducing the computational resources required compared to higher sampling rates.
     min_duration = 1.0  # Minimum duration in seconds
@@ -312,7 +312,7 @@ if __name__ == '__main__':
 
     # # Resample!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     #
-    input_dir = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/output/preprocess/sza_slices'  # Replace with your actual input directory
+    input_dir = 'preprocess/output/sza_diairized_slices'  # Replace with your actual input directory
 
     for root, dirs, files in os.walk(input_dir):
         for file in files:
@@ -322,7 +322,7 @@ if __name__ == '__main__':
 
                 # Resample the audio file
                 y, sr = resample(root + '/' + file, target_sample_rate)
-                output_path = os.path.join(output_dir + 'sza_resample_new/', file_name)
+                output_path = os.path.join(output_dir + 'sza_resample_44k/', file_name)
 
                 # Ensure the output directory exists
                 os.makedirs(os.path.dirname(output_path), exist_ok=True)
@@ -368,7 +368,7 @@ if __name__ == '__main__':
     #         file_path = os.path.join(resample_dir, filename)
     #         wav_file_paths.append(file_path)
     #
-    # diairized_dir = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/output/preprocess/sza_diairized/'
+    # diairized_dir = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/output/preprocess/sza_diairized_timestamps/'
     #
     # rttm_file_paths = []
     # for filename in os.listdir(diairized_dir):

@@ -7,8 +7,8 @@ data:
   encoder_sample_rate: 16000
   encoder_hop_size: 320
   encoder_out_channels: 768 # 256 if using 'hubertsoft'
-  training_files: "filelists/train.txt"
-  validation_files: "filelists/val.txt"
+  training_files: "dataset/filelists/train.txt"
+  validation_files: "dataset/filelists/val.txt"
   extensions: # List of extension included in the data collection
     - wav
   unit_interpolate_mode: "nearest"
@@ -24,7 +24,7 @@ model:
 device: cuda
 vocoder:
   type: 'nsf-hifigan'
-  ckpt: 'pretrain/nsf_hifigan/model'
+  ckpt: 'model_dir/pretrain/nsf_hifigan/model'
 infer:
   speedup: 10
   method: 'dpm-solver++' # 'pndm' or 'dpm-solver' or 'ddim' or 'unipc' or 'dpm-solver++'
@@ -38,14 +38,14 @@ train:
   cache_all_data: true # Save Internal-Memory or Graphics-Memory if it is false, but may be slow
   cache_device: 'cpu' # Set to 'cuda' to cache the data into the Graphics-Memory, fastest speed for strong gpu
   cache_fp16: true
-  epochs: 100000
+  epochs: 1000
   interval_log: 10
-  interval_val: 2000
+  interval_val: 80
   interval_force_save: 5000
   lr: 0.0001
-  decay_step: 100000
+  decay_step: 1000
   gamma: 0.5
   weight_decay: 0
   save_opt: false
 spk:
-  'nyaru': 0
+  'sza': 0

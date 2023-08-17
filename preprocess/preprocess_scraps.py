@@ -11,7 +11,7 @@ import zipfile
 # zip_path = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/input/SZA_CTRL_Archive.zip'  # Replace with your actual zip file path
 # extract_dir = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/input/SZA_CTRL'  # Replace with your actual extract directory
 input_dir = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/input/SZA_CTRL'  # Replace with your actual input directory
-output_dir = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/output/preprocess/resample'  # Replace with your actual output directory
+output_dir = '/preprocess/output/preprocess/resample'  # Replace with your actual output directory
 target_sample_rate = 22050  # Replace with your desired sample rate
 # A common sample rate for music is 44.1 kHz.
 #  16 kHz is commonly used because it captures most of the important information in human speech while reducing the computational resources required compared to higher sampling rates.

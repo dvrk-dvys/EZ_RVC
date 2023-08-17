@@ -9,9 +9,9 @@ data:
   extensions:
   - wav
   sampling_rate: 44100
-  training_files: filelists/train.txt
+  training_files: preprocess/filelists/train.txt
   unit_interpolate_mode: nearest
-  validation_files: filelists/val.txt
+  validation_files: preprocess/filelists/val.txt
 device: cuda
 env:
   expdir: logs/44k/diffusion
@@ -29,15 +29,15 @@ model:
   type: Diffusion
   use_pitch_aug: true
 spk:
-  speaker: 0
+  sza: 0
 train:
   amp_dtype: fp32
   batch_size: 48
   cache_all_data: true
   cache_device: cpu
   cache_fp16: true
-  decay_step: 100000
-  epochs: 100000
+  decay_step: 1000
+  epochs: 1000
   gamma: 0.5
   interval_force_save: 5000
   interval_log: 10
@@ -47,5 +47,5 @@ train:
   save_opt: false
   weight_decay: 0
 vocoder:
-  ckpt: pretrain/nsf_hifigan/model
+  ckpt: model_dir/pretrain/nsf_hifigan/model
   type: nsf-hifigan

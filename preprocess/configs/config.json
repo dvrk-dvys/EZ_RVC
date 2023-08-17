@@ -1,7 +1,7 @@
 {
   "train": {
     "log_interval": 200,
-    "eval_interval": 200,
+    "eval_interval": 800,
     "seed": 1234,
     "epochs": 1000,
     "learning_rate": 0.0001,
@@ -27,10 +27,10 @@
     "vol_aug": false
   },
   "data": {
-    "training_files": "filelists/train.txt",
-    "validation_files": "filelists/val.txt",
+    "training_files": "preprocess/filelists/train.txt",
+    "validation_files": "preprocess/filelists/val.txt",
     "max_wav_value": 32768.0,
-    "sampling_rate": 44100,
+    "sampling_rate": 22050,
     "filter_length": 2048,
     "hop_length": 512,
     "win_length": 2048,
@@ -100,6 +100,6 @@
     "use_automatic_f0_prediction": true
   },
   "spk": {
-    "speaker": 0
+    "sza": 0
   }
 }

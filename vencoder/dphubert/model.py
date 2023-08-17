@@ -1,4 +1,4 @@
-"""Speech SSL models supporting pruning.
+"""Speech SSL model_dir supporting pruning.
 
 Originally from:
 https://github.com/pytorch/audio/blob/main/torchaudio/models/wav2vec2/model.py
@@ -26,8 +26,8 @@ class Wav2Vec2Model(Module):
         and :py:func:`hubert_xlarge`.
 
     See Also:
-        * :class:`torchaudio.pipelines.Wav2Vec2Bundle`: Pretrained models (without fine-tuning)
-        * :class:`torchaudio.pipelines.Wav2Vec2ASRBundle`: ASR pipelines with pretrained models.
+        * :class:`torchaudio.pipelines.Wav2Vec2Bundle`: Pretrained model_dir (without fine-tuning)
+        * :class:`torchaudio.pipelines.Wav2Vec2ASRBundle`: ASR pipelines with pretrained model_dir.
 
     Args:
         feature_extractor (torch.nn.Module):
@@ -205,7 +205,7 @@ def wav2vec2_model_original(
     encoder_prune_feed_forward_intermediate: bool = False,
     encoder_prune_feed_forward_layer: bool = False,
 ) -> Wav2Vec2Model:
-    """Builds custom :class:`~torchaudio.models.Wav2Vec2Model`.
+    """Builds custom :class:`~torchaudio.model_dir.Wav2Vec2Model`.
 
     Note:
         The "feature extractor" below corresponds to
@@ -374,7 +374,7 @@ def wav2vec2_base(
     encoder_prune_feed_forward_intermediate: bool = False,
     encoder_prune_feed_forward_layer: bool = False,
 ) -> Wav2Vec2Model:
-    """Builds "base" :class:`~torchaudio.models.Wav2Vec2Model` from *wav2vec 2.0* :cite:`baevski2020wav2vec`
+    """Builds "base" :class:`~torchaudio.model_dir.Wav2Vec2Model` from *wav2vec 2.0* :cite:`baevski2020wav2vec`
 
     Args:
         encoder_projection_dropout (float):
@@ -432,7 +432,7 @@ def wav2vec2_large(
     encoder_prune_feed_forward_intermediate: bool = False,
     encoder_prune_feed_forward_layer: bool = False,
 ) -> Wav2Vec2Model:
-    """Builds "large" :class:`~torchaudio.models.Wav2Vec2Model` from *wav2vec 2.0* :cite:`baevski2020wav2vec`
+    """Builds "large" :class:`~torchaudio.model_dir.Wav2Vec2Model` from *wav2vec 2.0* :cite:`baevski2020wav2vec`
 
     Args:
         encoder_projection_dropout (float):
@@ -490,7 +490,7 @@ def wav2vec2_large_lv60k(
     encoder_prune_feed_forward_intermediate: bool = False,
     encoder_prune_feed_forward_layer: bool = False,
 ) -> Wav2Vec2Model:
-    """Builds "large lv-60k" :class:`~torchaudio.models.Wav2Vec2Model` from *wav2vec 2.0* :cite:`baevski2020wav2vec`
+    """Builds "large lv-60k" :class:`~torchaudio.model_dir.Wav2Vec2Model` from *wav2vec 2.0* :cite:`baevski2020wav2vec`
 
     Args:
         encoder_projection_dropout (float):
@@ -548,7 +548,7 @@ def hubert_base(
     encoder_prune_feed_forward_intermediate: bool = False,
     encoder_prune_feed_forward_layer: bool = False,
 ) -> Wav2Vec2Model:
-    """Builds "base" :class:`HuBERT <torchaudio.models.Wav2Vec2Model>` from *HuBERT* :cite:`hsu2021hubert`
+    """Builds "base" :class:`HuBERT <torchaudio.model_dir.Wav2Vec2Model>` from *HuBERT* :cite:`hsu2021hubert`
 
     Args:
         encoder_projection_dropout (float):
@@ -609,7 +609,7 @@ def hubert_large(
     encoder_prune_feed_forward_intermediate: bool = False,
     encoder_prune_feed_forward_layer: bool = False,
 ) -> Wav2Vec2Model:
-    """Builds "large" :class:`HuBERT <torchaudio.models.Wav2Vec2Model>` from *HuBERT* :cite:`hsu2021hubert`
+    """Builds "large" :class:`HuBERT <torchaudio.model_dir.Wav2Vec2Model>` from *HuBERT* :cite:`hsu2021hubert`
 
     Args:
         encoder_projection_dropout (float):
@@ -667,7 +667,7 @@ def hubert_xlarge(
     encoder_prune_feed_forward_intermediate: bool = False,
     encoder_prune_feed_forward_layer: bool = False,
 ) -> Wav2Vec2Model:
-    """Builds "extra large" :class:`HuBERT <torchaudio.models.Wav2Vec2Model>` from *HuBERT* :cite:`hsu2021hubert`
+    """Builds "extra large" :class:`HuBERT <torchaudio.model_dir.Wav2Vec2Model>` from *HuBERT* :cite:`hsu2021hubert`
 
     Args:
         encoder_projection_dropout (float):
@@ -764,7 +764,7 @@ def wavlm_model(
 ) -> Wav2Vec2Model:
     """Builds custom WaveLM model :cite:`chen2022wavlm`. The architecture is compatible
     with Wav2Vec2 model :cite:`baevski2020wav2vec`, and so the output object is
-    :class:`~torchaudio.models.Wav2Vec2Model`. Most of the arguments have the same meaning
+    :class:`~torchaudio.model_dir.Wav2Vec2Model`. Most of the arguments have the same meaning
     as in :py:func:`wav2vec2_model` so please refer there for documentation.
 
     Args:
@@ -872,7 +872,7 @@ def wavlm_base(
 ) -> Wav2Vec2Model:
     """Builds "base" WaveLM model :cite:`chen2022wavlm`. The architecture is compatible
     with Wav2Vec2 model :cite:`baevski2020wav2vec`, and so the output class is
-    :class:`~torchaudio.models.Wav2Vec2Model`.
+    :class:`~torchaudio.model_dir.Wav2Vec2Model`.
 
     Args:
         encoder_projection_dropout (float):
@@ -924,7 +924,7 @@ def wavlm_large(
 ) -> Wav2Vec2Model:
     """Builds "large" WaveLM model :cite:`chen2022wavlm`. The architecture is compatible
     with Wav2Vec2 model :cite:`baevski2020wav2vec`, and so the output class is
-    :class:`~torchaudio.models.Wav2Vec2Model`.
+    :class:`~torchaudio.model_dir.Wav2Vec2Model`.
 
     Args:
         encoder_projection_dropout (float):

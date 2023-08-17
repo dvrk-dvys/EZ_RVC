@@ -87,22 +87,22 @@ def get_content(cmodel, y):
 
 def get_f0_predictor(f0_predictor,hop_length,sampling_rate,**kargs):
     if f0_predictor == "pm":
-        from models.modules.F0Predictor.PMF0Predictor import PMF0Predictor
+        from model_dir.modules.F0Predictor.PMF0Predictor import PMF0Predictor
         f0_predictor_object = PMF0Predictor(hop_length=hop_length,sampling_rate=sampling_rate)
     elif f0_predictor == "crepe":
-        from models.modules.F0Predictor.CrepeF0Predictor import CrepeF0Predictor
+        from model_dir.modules.F0Predictor.CrepeF0Predictor import CrepeF0Predictor
         f0_predictor_object = CrepeF0Predictor(hop_length=hop_length,sampling_rate=sampling_rate,device=kargs["device"],threshold=kargs["threshold"])
     elif f0_predictor == "harvest":
-        from models.modules.F0Predictor.HarvestF0Predictor import HarvestF0Predictor
+        from model_dir.modules.F0Predictor.HarvestF0Predictor import HarvestF0Predictor
         f0_predictor_object = HarvestF0Predictor(hop_length=hop_length,sampling_rate=sampling_rate)
     elif f0_predictor == "dio":
-        from models.modules.F0Predictor.DioF0Predictor import DioF0Predictor
+        from model_dir.modules.F0Predictor.DioF0Predictor import DioF0Predictor
         f0_predictor_object = DioF0Predictor(hop_length=hop_length,sampling_rate=sampling_rate) 
     elif f0_predictor == "rmvpe":
-        from models.modules.F0Predictor.RMVPEF0Predictor import RMVPEF0Predictor
+        from model_dir.modules.F0Predictor.RMVPEF0Predictor import RMVPEF0Predictor
         f0_predictor_object = RMVPEF0Predictor(hop_length=hop_length,sampling_rate=sampling_rate,dtype=torch.float32 ,device=kargs["device"],threshold=kargs["threshold"])
     elif f0_predictor == "fcpe":
-        from models.modules.F0Predictor.FCPEF0Predictor import FCPEF0Predictor
+        from model_dir.modules.F0Predictor.FCPEF0Predictor import FCPEF0Predictor
         f0_predictor_object = FCPEF0Predictor(hop_length=hop_length,sampling_rate=sampling_rate,dtype=torch.float32 ,device=kargs["device"],threshold=kargs["threshold"])
     else:
         raise Exception("Unknown f0 predictor")
@@ -199,7 +199,7 @@ def save_checkpoint(model, optimizer, learning_rate, iteration, checkpoint_path)
               'optimizer': optimizer.state_dict(),
               'learning_rate': learning_rate}, checkpoint_path)
 
-def clean_checkpoints(path_to_models='logs/44k/', n_ckpts_to_keep=2, sort_by_time=True):
+def clean_checkpoints(path_to_models='logs/22k/', n_ckpts_to_keep=2, sort_by_time=True):
   """Freeing up space by deleting saved ckpts
 
   Arguments:
@@ -311,13 +311,16 @@ def load_filepaths_and_text(filename, split="|"):
 
 def get_hparams(init=True):
   parser = argparse.ArgumentParser()
-  parser.add_argument('-c', '--config', type=str, default="./configs/config.json",
+  parser.add_argument('-c', '--config', type=str, default="/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset/configs/config.json",
                       help='JSON file for configuration')
-  parser.add_argument('-m', '--model', type=str, required=True,
+  parser.add_argument('-m', '--model', type=str, default="sovits-pretrain-base-vec768", required=True,
                       help='Model name')
 
   args = parser.parse_args()
-  model_dir = os.path.join("./logs", args.model)
+  # model_dir = os.path.join("./logs", args.model)
+  model_dir = os.path.join("./model_dir", args.model)
+  # D_0_URL = "https://huggingface.co/1asbgdh/sovits4.0-volemb-vec768/resolve/main/clean_D_320000.pth"  # @param ["https://huggingface.co/datasets/ms903/sovits4.0-768vec-layer12/resolve/main/sovits_768l12_pre_large_320k/clean_D_320000.pth", "https://huggingface.co/1asbgdh/sovits4.0-volemb-vec768/resolve/main/clean_D_320000.pth", "https://huggingface.co/datasets/ms903/sovits4.0-768vec-layer12/resolve/main/vol_emb/clean_D_320000.pth"] {allow-input: true}
+  # G_0_URL = "https://huggingface.co/1asbgdh/sovits4.0-volemb-vec768/resolve/main/clean_G_320000.pth"  # @param ["https://huggingface.co/datasets/ms903/sovits4.0-768vec-layer12/resolve/main/sovits_768l12_pre_large_320k/clean_G_320000.pth", "https://huggingface.co/1asbgdh/sovits4.0-volemb-vec768/resolve/main/clean_G_320000.pth", "https://huggingface.co/datasets/ms903/sovits4.0-768vec-layer12/resolve/main/vol_emb/clean_G_320000.pth"] {allow-input: true}
 
   if not os.path.exists(model_dir):
     os.makedirs(model_dir)
@@ -458,7 +461,7 @@ def change_rms(data1, sr1, data2, sr2, rate):  # 1是输入音频，2是输出�
     )
     return data2
 
-def train_index(spk_name,root_dir = "dataset/44k/"):  #from: RVC https://github.com/RVC-Project/Retrieval-based-Voice-Conversion-WebUI
+def train_index(spk_name,root_dir = "dataset/22k/"):  #from: RVC https://github.com/RVC-Project/Retrieval-based-Voice-Conversion-WebUI
     n_cpu = cpu_count()
     print("The feature index is constructing.")
     exp_dir = os.path.join(root_dir,spk_name)

@@ -1,0 +1,39 @@
+{
+    "os": "macOS-12.6.1-arm64-arm-64bit",
+    "python": "3.10.9",
+    "heartbeatAt": "2023-08-17T14:43:03.423447",
+    "startedAt": "2023-08-17T14:43:02.680772",
+    "docker": null,
+    "cuda": null,
+    "args": [
+        "--config",
+        "/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset/configs/config.json",
+        "-m",
+        "sovits-pretrain-base-vec768"
+    ],
+    "state": "running",
+    "program": "/Users/jordanharris/Code/PycharmProjects/EZ_RVC/train_m1.py",
+    "codePath": "train_m1.py",
+    "git": {
+        "remote": "git@github.com:dvrk-dvys/EZ_RVC.git",
+        "commit": "91b149c5937781430562a4f9bf4a39c0e918d1a0"
+    },
+    "email": "ja.harr91@gmail.com",
+    "root": "/Users/jordanharris/Code/PycharmProjects/EZ_RVC",
+    "host": "Jordans-MBP",
+    "username": "jordanharris",
+    "executable": "/Users/jordanharris/miniforge3/envs/adsense/bin/python",
+    "cpu_count": 8,
+    "cpu_count_logical": 8,
+    "disk": {
+        "total": 228.27386474609375,
+        "used": 206.76889419555664
+    },
+    "gpuapple": {
+        "type": "arm",
+        "vendor": "Apple"
+    },
+    "memory": {
+        "total": 8.0
+    }
+}

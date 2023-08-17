@@ -173,13 +173,13 @@ from preprocess_hubert_f0 import process_one
 if __name__ == "__main__":
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-    # Initialize models
+    # Initialize model_dir
     # hmodel = HubertSoft()
     # Load RMVPE model
-    f0p = torch.load('./models/rmvpe.pt')
+    f0p = torch.load('./model_dir/rmvpe.pt')
     mel_extractor = MelSpectrogram()
     # Load Hubert model
-    hmodel = Wav2Vec2Model.from_pretrained('./models/hubert_base.pt')
+    hmodel = Wav2Vec2Model.from_pretrained('./model_dir/hubert_base.pt')
 
 
     # Get list of wav files

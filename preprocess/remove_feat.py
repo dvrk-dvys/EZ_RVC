@@ -124,7 +124,7 @@ if __name__ == '__main__':
     # rttm_file = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/output/preprocess/sza_diairized/2_SZA_Doves_In_The_Wind_(feat._Kendrick_Lamar)_(Filtered_Acapella)_(Vocals)_audio.rttm'
     # rttm_file = "/Users/jordanharris/Code/PycharmProjects/EZ_RVC/output/preprocess/sza_diairized/3_SZA_Love_Galore_(feat._Travis_Scott)_(Filtered_Acapella)_(Vocals)_audio.rttm"
     # rttm_file = "/Users/jordanharris/Code/PycharmProjects/EZ_RVC/output/preprocess/sza_diairized/8_SZA_Wavy_(Interlude)_(feat._James_Fauntleroy)_(Filtered_Acapella)_(Vocals)_audio.rttm"
-    rttm_file = "/Users/jordanharris/Code/PycharmProjects/EZ_RVC/output/preprocess/sza_diairized/9_SZA_Pretty_Little_Birds_(feat._Isaiah_Rashad)_(Filtered_Acapella)_(Vocals)_audio.rttm"
+    rttm_file = "/output/sza_diairized/9_SZA_Pretty_Little_Birds_(feat._Isaiah_Rashad)_(Filtered_Acapella)_(Vocals)_audio.rttm"
     # rttm_file = "/Users/jordanharris/Code/PycharmProjects/EZ_RVC/output/preprocess/sza_diairized/SZA_Billboard_Interview_Unedited_Raw_audio.rttm"
 
     # segments = read_rttm(rttm_file)
