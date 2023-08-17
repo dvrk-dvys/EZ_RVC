@@ -138,7 +138,6 @@ tensorboard-data-server==0.6.1
 tensorboard-plugin-wit==1.8.1
 tensorboardX==2.6.1
 tensorflow-estimator==2.9.0
-tensorflow-metal==0.5.0
 termcolor==2.2.0
 tokenizers==0.13.3
 torch==2.0.1
