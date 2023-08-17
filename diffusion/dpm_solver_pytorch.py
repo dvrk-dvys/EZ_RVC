@@ -14,8 +14,8 @@ class NoiseScheduleVP:
         """Create a wrapper class for the forward SDE (VP type).
 
         ***
-        Update: We support discrete-time diffusion models by implementing a picewise linear interpolation for log_alpha_t.
-                We recommend to use schedule='discrete' for the discrete-time diffusion models, especially for high-resolution images.
+        Update: We support discrete-time diffusion model_dir by implementing a picewise linear interpolation for log_alpha_t.
+                We recommend to use schedule='discrete' for the discrete-time diffusion model_dir, especially for high-resolution images.
         ***
 
         The forward SDE ensures that the condition distribution q_{t|0}(x_t | x_0) = N ( alpha_t * x_0, sigma_t^2 * I ).
@@ -113,7 +113,7 @@ class NoiseScheduleVP:
         """
         For some beta schedules such as cosine schedule, the log-SNR has numerical isssues. 
         We clip the log-SNR near t=T within -5.1 to ensure the stability.
-        Such a trick is very useful for diffusion models with the cosine schedule, such as i-DDPM, guided-diffusion and GLIDE.
+        Such a trick is very useful for diffusion model_dir with the cosine schedule, such as i-DDPM, guided-diffusion and GLIDE.
         """
         log_sigmas = 0.5 * torch.log(1. - torch.exp(2. * log_alphas))
         lambs = log_alphas - log_sigmas  
@@ -191,7 +191,7 @@ def model_wrapper(
         3. "v": velocity prediction model. (Trained by predicting the velocity).
             The "v" prediction is derivation detailed in Appendix D of [1], and is used in Imagen-Video [2].
 
-            [1] Salimans, Tim, and Jonathan Ho. "Progressive distillation for fast sampling of diffusion models."
+            [1] Salimans, Tim, and Jonathan Ho. "Progressive distillation for fast sampling of diffusion model_dir."
                 arXiv preprint arXiv:2202.00512 (2022).
             [2] Ho, Jonathan, et al. "Imagen Video: High Definition Video Generation with Diffusion Models."
                 arXiv preprint arXiv:2210.02303 (2022).
@@ -220,7 +220,7 @@ def model_wrapper(
                 classifier_fn(x, t_input, cond, **classifier_kwargs) -> logits(x, t_input, cond)
             ``
 
-            [3] P. Dhariwal and A. Q. Nichol, "Diffusion models beat GANs on image synthesis,"
+            [3] P. Dhariwal and A. Q. Nichol, "Diffusion model_dir beat GANs on image synthesis,"
                 in Advances in Neural Information Processing Systems, vol. 34, 2021, pp. 8780-8794.
 
         3. "classifier-free": classifier-free guidance sampling by conditional DPMs.
@@ -347,7 +347,7 @@ class DPM_Solver:
 
         We support both DPM-Solver (`algorithm_type="dpmsolver"`) and DPM-Solver++ (`algorithm_type="dpmsolver++"`).
 
-        We also support the "dynamic thresholding" method in Imagen[1]. For pixel-space diffusion models, you
+        We also support the "dynamic thresholding" method in Imagen[1]. For pixel-space diffusion model_dir, you
         can set both `algorithm_type="dpmsolver++"` and `correcting_x0_fn="dynamic_thresholding"` to use the
         dynamic thresholding. The "dynamic thresholding" can greatly improve the sample quality for pixel-space
         DPMs with large guidance scales. Note that the thresholding method is **unsuitable** for latent-space
@@ -396,7 +396,7 @@ class DPM_Solver:
                 Valid only when use `dpmsolver++` and `correcting_x0_fn="dynamic_thresholding"`.
 
         [1] Chitwan Saharia, William Chan, Saurabh Saxena, Lala Li, Jay Whang, Emily Denton, Seyed Kamyar Seyed Ghasemipour,
-            Burcu Karagol Ayan, S Sara Mahdavi, Rapha Gontijo Lopes, et al. Photorealistic text-to-image diffusion models
+            Burcu Karagol Ayan, S Sara Mahdavi, Rapha Gontijo Lopes, et al. Photorealistic text-to-image diffusion model_dir
             with deep language understanding. arXiv preprint arXiv:2205.11487, 2022b.
         """
         self.model = lambda x, t: model_fn(x, t.expand((x.shape[0])))
@@ -970,7 +970,7 @@ class DPM_Solver:
         Returns:
             x_0: A pytorch tensor. The approximated solution at time `t_0`.
 
-        [1] A. Jolicoeur-Martineau, K. Li, R. Piché-Taillefer, T. Kachman, and I. Mitliagkas, "Gotta go fast when generating data with score-based models," arXiv preprint arXiv:2105.14080, 2021.
+        [1] A. Jolicoeur-Martineau, K. Li, R. Piché-Taillefer, T. Kachman, and I. Mitliagkas, "Gotta go fast when generating data with score-based model_dir," arXiv preprint arXiv:2105.14080, 2021.
         """
         ns = self.noise_schedule
         s = t_T * torch.ones((1,)).to(x)
@@ -1141,7 +1141,7 @@ class DPM_Solver:
 
                 This trick is firstly proposed by DDPM (https://arxiv.org/abs/2006.11239) and
                 score_sde (https://arxiv.org/abs/2011.13456). Such trick can improve the FID
-                for diffusion models sampling by diffusion SDEs for low-resolutional images
+                for diffusion model_dir sampling by diffusion SDEs for low-resolutional images
                 (such as CIFAR-10). However, we observed that such trick does not matter for
                 high-resolutional images. As it needs an additional NFE, we do not recommend
                 it for high-resolutional images.
