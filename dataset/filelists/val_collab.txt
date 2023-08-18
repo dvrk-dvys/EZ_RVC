@@ -1,0 +1,2 @@
+./dataset/44k/sza/SZA__billboard_raw_interview_96.wav
+./dataset/44k/sza/14_SZA__Anything_Filtered_Acapella_Vocals_5.wav
