@@ -1,2 +1,0 @@
-/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset/44k/sza/SZA__billboard_raw_interview_383.wav
-/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset/44k/sza/SZA__billboard_raw_interview_176.wav
