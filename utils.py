@@ -199,7 +199,7 @@ def save_checkpoint(model, optimizer, learning_rate, iteration, checkpoint_path)
               'optimizer': optimizer.state_dict(),
               'learning_rate': learning_rate}, checkpoint_path)
 
-def clean_checkpoints(path_to_models='logs/22k/', n_ckpts_to_keep=2, sort_by_time=True):
+def clean_checkpoints(path_to_models='logs/44k/', n_ckpts_to_keep=2, sort_by_time=True):
   """Freeing up space by deleting saved ckpts
 
   Arguments:
@@ -315,10 +315,14 @@ def get_hparams(init=True):
                       help='JSON file for configuration')
   parser.add_argument('-m', '--model', type=str, default="sovits-pretrain-base-vec768", required=True,
                       help='Model name')
+  parser.add_argument('-md', '--model_dir', type=str, default="./model_dir", required=True,
+                      help='Model name')
 
   args = parser.parse_args()
   # model_dir = os.path.join("./logs", args.model)
-  model_dir = os.path.join("./model_dir", args.model)
+  # model_dir = os.path.join("./model_dir", args.model)
+  model_dir = os.path.join(args.model_dir, args.model)
+
   # D_0_URL = "https://huggingface.co/1asbgdh/sovits4.0-volemb-vec768/resolve/main/clean_D_320000.pth"  # @param ["https://huggingface.co/datasets/ms903/sovits4.0-768vec-layer12/resolve/main/sovits_768l12_pre_large_320k/clean_D_320000.pth", "https://huggingface.co/1asbgdh/sovits4.0-volemb-vec768/resolve/main/clean_D_320000.pth", "https://huggingface.co/datasets/ms903/sovits4.0-768vec-layer12/resolve/main/vol_emb/clean_D_320000.pth"] {allow-input: true}
   # G_0_URL = "https://huggingface.co/1asbgdh/sovits4.0-volemb-vec768/resolve/main/clean_G_320000.pth"  # @param ["https://huggingface.co/datasets/ms903/sovits4.0-768vec-layer12/resolve/main/sovits_768l12_pre_large_320k/clean_G_320000.pth", "https://huggingface.co/1asbgdh/sovits4.0-volemb-vec768/resolve/main/clean_G_320000.pth", "https://huggingface.co/datasets/ms903/sovits4.0-768vec-layer12/resolve/main/vol_emb/clean_G_320000.pth"] {allow-input: true}
 
@@ -461,7 +465,7 @@ def change_rms(data1, sr1, data2, sr2, rate):  # 1是输入音频，2是输出�
     )
     return data2
 
-def train_index(spk_name,root_dir = "dataset/22k/"):  #from: RVC https://github.com/RVC-Project/Retrieval-based-Voice-Conversion-WebUI
+def train_index(spk_name,root_dir = "dataset/44k/"):  #from: RVC https://github.com/RVC-Project/Retrieval-based-Voice-Conversion-WebUI
     n_cpu = cpu_count()
     print("The feature index is constructing.")
     exp_dir = os.path.join(root_dir,spk_name)
