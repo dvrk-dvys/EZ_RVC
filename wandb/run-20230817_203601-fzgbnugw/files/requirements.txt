@@ -73,7 +73,7 @@ google-auth-oauthlib==0.4.6
 google-auth==2.16.2
 google-pasta==0.2.0
 googleads==3.8.0
-grpcio==1.51.3
+grpcio==1.53.0
 h11==0.14.0
 h5py==3.8.0
 hmmlearn==0.3.0
