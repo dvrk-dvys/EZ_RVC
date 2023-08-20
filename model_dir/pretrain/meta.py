@@ -10,7 +10,8 @@ def download_dict():
         },
         "hubertsoft": {
             "url": "https://github.com/bshall/hubert/releases/download/v0.1/hubert-soft-0d54a1f4.pt",
-            "output": "./pretrain/hubert-soft-0d54a1f4.pt"
+            "output": "/model_dir/pretrain/hubert-soft-0d54a1f4.pt"
+
         },
         "whisper-ppg-small": {
             "url": "https://openaipublic.azureedge.net/main/whisper/models/9ecf779972d90ba49c06d968637d720dd632c55bbf19d441fb42bf17a411e794/small.pt",
