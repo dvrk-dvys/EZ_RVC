@@ -163,10 +163,10 @@ class Svc(object):
         # load hubert and model
         if not self.only_diffusion:
             self.load_model(spk_mix_enable)
-            self.hubert_model = utils.get_speech_encoder(self.speech_encoder,device=self.dev)
+            self.hubert_model = utils.get_speech_encoder(self.speech_encoder, device=self.dev)
             self.volume_extractor = utils.Volume_Extractor(self.hop_size)
         else:
-            self.hubert_model = utils.get_speech_encoder(self.diffusion_args.data.encoder,device=self.dev)
+            self.hubert_model = utils.get_speech_encoder(self.diffusion_args.data.encoder, device=self.dev)
             self.volume_extractor = utils.Volume_Extractor(self.diffusion_args.data.block_size)
             
         if os.path.exists(cluster_model_path):

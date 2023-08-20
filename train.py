@@ -150,7 +150,7 @@ def train_and_evaluate(rank, epoch, hps, nets, optims, schedulers, scaler, loade
     net_g.train()
     net_d.train()
     for batch_idx, items in enumerate(train_loader):
-        c, f0, spec, y, spk, lengths, uv,volume = items
+        c, f0, spec, y, spk, lengths, uv, volume = items
         g = spk.cuda(rank, non_blocking=True)
         spec, y = spec.cuda(rank, non_blocking=True), y.cuda(rank, non_blocking=True)
         c = c.cuda(rank, non_blocking=True)
@@ -281,7 +281,7 @@ def evaluate(hps, generator, eval_loader, writer_eval):
     audio_dict = {}
     with torch.no_grad():
         for batch_idx, items in enumerate(eval_loader):
-            c, f0, spec, y, spk, _, uv,volume = items
+            c, f0, spec, y, spk, _, uv, volume = items
             g = spk[:1].cuda(0)
             spec, y = spec[:1].cuda(0), y[:1].cuda(0)
             c = c[:1].cuda(0)

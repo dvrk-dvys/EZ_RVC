@@ -3,7 +3,7 @@ import re
 
 import torch
 import librosa
-import faiss
+# import faiss
 import soundfile as sf
 import numpy as np
 import zipfile

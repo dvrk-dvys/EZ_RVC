@@ -17,10 +17,10 @@ def main():
     parser = argparse.ArgumentParser(description='sovits4 inference')
 
     # 一定要设置的部分
-    parser.add_argument('-m', '--model_path', type=str, default="/Users/jordanharris/Code/PycharmProjects/EZ_RVC/model_dir/G_30400.pth", help='模型路径')
-    parser.add_argument('-c', '--config_path', type=str, default="logs/44k/config.json", help='配置文件路径')
+    parser.add_argument('-m', '--model_path', type=str, default="/Users/jordanharris/Code/PycharmProjects/EZ_RVC/model_dir/G_50000.pth", help='模型路径')
+    parser.add_argument('-c', '--config_path', type=str, default="/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset/configs/config_colab.json", help='配置文件路径')
     parser.add_argument('-cl', '--clip', type=float, default=0, help='音频强制切片，默认0为自动切片，单位为秒/s')
-    parser.add_argument('-n', '--clean_names', type=str, nargs='+', default=[".*\.wav$"], help='wav文件名列表，放在raw文件夹下')
+    parser.add_argument('-n', '--clean_names', type=str, nargs='+', default=["PinkPantheress_Ice_Spice_Boys_a_liar_Almost_Studio_Acapella.wav"], help='wav文件名列表，放在raw文件夹下')
     parser.add_argument('-t', '--trans', type=int, nargs='+', default=[0], help='音高调整，支持正负（半音）')
     parser.add_argument('-s', '--spk_list', type=str, nargs='+', default=['sza'], help='合成目标说话人名称')
     
@@ -37,8 +37,8 @@ def main():
     parser.add_argument('-fr', '--feature_retrieval', action='store_true', default=False, help='是否使用特征检索，如果使用聚类模型将被禁用，且cm与cr参数将会变成特征检索的索引路径与混合比例')
 
     # 浅扩散设置
-    parser.add_argument('-dm', '--diffusion_model_path', type=str, default="logs/44k/diffusion/model_0.pt", help='扩散模型路径')
-    parser.add_argument('-dc', '--diffusion_config_path', type=str, default="logs/44k/diffusion/config.yaml", help='扩散模型配置文件路径')
+    parser.add_argument('-dm', '--diffusion_model_path', type=str, default="/Users/jordanharris/Code/PycharmProjects/EZ_RVC/model_dir/model_0.pt", help='扩散模型路径')
+    parser.add_argument('-dc', '--diffusion_config_path', type=str, default="/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset/configs/diffusion.yaml", help='扩散模型配置文件路径')
     parser.add_argument('-ks', '--k_step', type=int, default=100, help='扩散步数，越大越接近扩散模型的结果，默认100')
     parser.add_argument('-se', '--second_encoding', action='store_true', default=False, help='二次编码，浅扩散前会对原始音频进行二次编码，玄学选项，有时候效果好，有时候效果差')
     parser.add_argument('-od', '--only_diffusion', action='store_true', default=False, help='纯扩散模式，该模式不会加载sovits模型，以扩散模型推理')
