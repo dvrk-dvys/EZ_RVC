@@ -195,7 +195,7 @@ class Svc(object):
                     zip_path)
                 # Unzipping the model
                 # enhancer_model_path = 'content/drive/MyDrive/dataset/44k/44k/nsf_hifigan/'
-                enhancer_model_path = './model_dir/pretrain/nsf_hifigan/'
+                enhancer_model_path = './model_dir/pretrain/nsf_hifigan/nsf_hifigan/'
 
                 with zipfile.ZipFile(zip_path, 'r') as zip_ref:
                     zip_ref.extractall(enhancer_model_path)
