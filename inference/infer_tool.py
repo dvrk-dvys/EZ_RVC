@@ -188,14 +188,14 @@ class Svc(object):
             from model_dir.modules.enhancer import Enhancer
             if utils.is_running_in_colab() == True:
                 # zip_path = 'content/drive/MyDrive/dataset/44k/44k/nsf_hifigan_20221211.zip'
-                zip_path = '/model_dir/pretrain/nsf_hifigan/nsf_hifigan_20221211.zip'
+                zip_path = './model_dir/pretrain/nsf_hifigan/nsf_hifigan_20221211.zip'
 
                 urllib.request.urlretrieve(
                     'https://github.com/openvpi/vocoders/releases/download/nsf-hifigan-v1/nsf_hifigan_20221211.zip',
                     zip_path)
                 # Unzipping the model
                 # enhancer_model_path = 'content/drive/MyDrive/dataset/44k/44k/nsf_hifigan/'
-                enhancer_model_path = '/model_dir/pretrain/nsf_hifigan'
+                enhancer_model_path = './model_dir/pretrain/nsf_hifigan'
 
                 with zipfile.ZipFile(zip_path, 'r') as zip_ref:
                     zip_ref.extractall(enhancer_model_path)
