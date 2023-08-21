@@ -84,7 +84,7 @@ class NsfHifiGAN(torch.nn.Module):
             device = 'cuda' if torch.cuda.is_available() else 'cpu'
         self.device = device
         print('| Load HifiGAN: ', model_path)
-        self.model, self.h = load_model(model_path, device=self.device)
+        self.model, self.h = load_model(model_path=model_path, device=self.device)
     
     def sample_rate(self):
         return self.h.sampling_rate

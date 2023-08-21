@@ -15,7 +15,7 @@ LRELU_SLOPE = 0.1
 
 
 def load_model(model_path, device='cuda'):
-    h = load_config(model_path)
+    h = load_config
 
     generator = Generator(h).to(device)
 
@@ -26,11 +26,11 @@ def load_model(model_path, device='cuda'):
     del cp_dict
     return generator, h
 
-def load_config(model_path):
+def load_config(config_path='/EZ_RVC/model_dir/pretrain/nsf_hifigan/config.json'):
     # config_file = os.path.join(os.path.split(model_path)[0] , 'config.json')
     # config_file = os.path.join('./model_dir/pretrain/nsf_hifigan/config.json', 'config.json')
 
-    with open(model_path) as f:
+    with open(config_path) as f:
         data = f.read()
 
     json_config = json.loads(data)
