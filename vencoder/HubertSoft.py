@@ -3,6 +3,7 @@ import torch
 from vencoder.encoder import SpeechEncoder
 from vencoder.hubert import hubert_model
 import os
+import importlib
 
 
 class HubertSoft(SpeechEncoder):
@@ -20,13 +21,12 @@ class HubertSoft(SpeechEncoder):
             return current_path
 
         def is_running_in_colab():
-            try:
-                import google.colab
+            if importlib.util.find_spec('google.colab') is not None:
                 return True
-            except ImportError:
+            else:
                 return False
 
-        if is_running_in_colab:
+        if is_running_in_colab == True:
             vec_path = "/content/EZ_RVC/model_dir/pretrain/hubert-soft-0d54a1f4.pt"
         # # The directory where the script should run
         # desired_directory = "/EZ_RVC"
