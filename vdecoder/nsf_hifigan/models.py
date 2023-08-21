@@ -15,7 +15,7 @@ LRELU_SLOPE = 0.1
 
 
 def load_model(model_path, device='cuda'):
-    h = load_config
+    h = load_config()
 
     generator = Generator(h).to(device)
 
