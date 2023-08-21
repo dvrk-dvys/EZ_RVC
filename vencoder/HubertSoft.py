@@ -2,12 +2,37 @@ import torch
 
 from vencoder.encoder import SpeechEncoder
 from vencoder.hubert import hubert_model
+import os
 
 
 class HubertSoft(SpeechEncoder):
     def __init__(self, vec_path="./model_dir/pretrain/hubert-soft-0d54a1f4.pt", device=None):
         super().__init__()
         print("load model(s) from {}".format(vec_path))
+
+        def find_project_root(target_file):
+            """Find the root directory of the project based on the existence of a specific target file."""
+            current_path = os.path.dirname(os.path.abspath(__file__))  # Start from the current script location
+            while not os.path.isfile(os.path.join(current_path, target_file)):
+                current_path = os.path.dirname(current_path)
+                if current_path == "/":
+                    raise FileNotFoundError(f"Cannot find the root directory based on the target file: {target_file}")
+            return current_path
+
+        # # The directory where the script should run
+        # desired_directory = "/EZ_RVC"
+        # Get the current working directory
+        current_directory = os.getcwd()
+
+        # if current_directory != desired_directory:
+        #     os.chdir(desired_directory)
+
+        print(f"Script is now running in: {os.getcwd()}")
+
+        root_directory = find_project_root('inference_main.py')
+        # Change to the root directory
+        os.chdir(root_directory)
+
         hubert_soft = hubert_model.hubert_soft(vec_path)
         if device is None:
             # self.dev = torch.device("cuda" if torch.cuda.is_available() else "cpu")
