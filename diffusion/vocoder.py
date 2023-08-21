@@ -52,7 +52,7 @@ class NsfHifiGAN(torch.nn.Module):
         self.device = device
         self.model_path = model_path
         self.model = None
-        self.h = load_config(model_path)
+        self.h = load_config('./model_dir/pretrain/nsf_hifigan/config.json')
         self.stft = STFT(
                 self.h.sampling_rate, 
                 self.h.num_mels, 

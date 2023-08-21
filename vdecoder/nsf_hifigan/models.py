@@ -27,8 +27,10 @@ def load_model(model_path, device='cuda'):
     return generator, h
 
 def load_config(model_path):
-    config_file = os.path.join(os.path.split(model_path)[0], 'config.json')
-    with open(config_file) as f:
+    # config_file = os.path.join(os.path.split(model_path)[0] , 'config.json')
+    # config_file = os.path.join('./model_dir/pretrain/nsf_hifigan/config.json', 'config.json')
+
+    with open(model_path) as f:
         data = f.read()
 
     json_config = json.loads(data)
