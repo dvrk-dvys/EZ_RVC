@@ -6,7 +6,7 @@ import os
 
 
 class HubertSoft(SpeechEncoder):
-    def __init__(self, vec_path="./model_dir/pretrain/hubert-soft-0d54a1f4.pt", device=None):
+    def __init__(self, vec_path="/content/EZ_RVC/model_dir/model_dir/pretrain/hubert-soft-0d54a1f4.pt", device=None):
         super().__init__()
         print("load model(s) from {}".format(vec_path))
 
@@ -32,6 +32,11 @@ class HubertSoft(SpeechEncoder):
         root_directory = find_project_root('inference_main.py')
         # Change to the root directory
         os.chdir(root_directory)
+
+        # Ensure the directory exists
+        model_directory = "/content/EZ_RVC/logs/44k/"
+        os.makedirs(model_directory, exist_ok=True)
+
 
         hubert_soft = hubert_model.hubert_soft(vec_path)
         if device is None:
