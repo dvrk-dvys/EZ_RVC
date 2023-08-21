@@ -3,7 +3,7 @@ import torch
 from vencoder.encoder import SpeechEncoder
 from vencoder.hubert import hubert_model
 import os
-import importlib
+from utils import is_running_in_colab
 
 
 class HubertSoft(SpeechEncoder):
@@ -20,32 +20,8 @@ class HubertSoft(SpeechEncoder):
                     raise FileNotFoundError(f"Cannot find the root directory based on the target file: {target_file}")
             return current_path
 
-        def is_running_in_colab():
-            if importlib.util.find_spec('google.colab') is not None:
-                return True
-            else:
-                return False
-
         if is_running_in_colab == True:
             vec_path = "/content/EZ_RVC/model_dir/pretrain/hubert-soft-0d54a1f4.pt"
-        # # The directory where the script should run
-        # desired_directory = "/EZ_RVC"
-        # Get the current working directory
-        current_directory = os.getcwd()
-
-        # if current_directory != desired_directory:
-        #     os.chdir(desired_directory)
-
-        # print(f"Script is now running in: {os.getcwd()}")
-        #
-        # root_directory = find_project_root('inference_main.py')
-        # # Change to the root directory
-        # os.chdir(root_directory)
-
-        # # Ensure the directory exists
-        # model_directory = "/content/EZ_RVC/logs/44k/"
-        # os.makedirs(model_directory, exist_ok=True)
-
 
         hubert_soft = hubert_model.hubert_soft(vec_path)
         if device is None:

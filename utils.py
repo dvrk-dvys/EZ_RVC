@@ -17,6 +17,9 @@ from scipy.io.wavfile import read
 from sklearn.cluster import MiniBatchKMeans
 from torch.nn import functional as F
 
+import importlib
+
+
 MATPLOTLIB_FLAG = False
 
 logging.basicConfig(stream=sys.stdout, level=logging.WARN)
@@ -150,7 +153,15 @@ def get_speech_encoder(speech_encoder,device=None,**kargs):
         speech_encoder_object = WavLMBasePlus(device = device)
     else:
         raise Exception("Unknown speech encoder")
-    return speech_encoder_object 
+    return speech_encoder_object
+
+
+def is_running_in_colab():
+    if importlib.util.find_spec('google.colab') is not None:
+        return True
+    else:
+        return False
+
 
 def load_checkpoint(checkpoint_path, model, optimizer=None, skip_optimizer=False):
     assert os.path.isfile(checkpoint_path)

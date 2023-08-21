@@ -119,7 +119,7 @@ class Svc(object):
                  cluster_model_path="logs/44k/kmeans_10000.pt",
                  nsf_hifigan_enhance = False,
                  diffusion_model_path="logs/44k/diffusion/model_0.pt",
-                 diffusion_config_path="configs/diffusion.yaml",
+                 diffusion_config_path="dataset/configs/diffusion.yaml",
                  shallow_diffusion = False,
                  only_diffusion = False,
                  spk_mix_enable = False,
@@ -184,7 +184,7 @@ class Svc(object):
             self.nsf_hifigan_enhance = False
         if self.nsf_hifigan_enhance:
             from model_dir.modules.enhancer import Enhancer
-            self.enhancer = Enhancer('nsf-hifigan', 'pretrain/nsf_hifigan/model',device=self.dev)
+            self.enhancer = Enhancer('nsf-hifigan', 'model_dir/pretrain/nsf_hifigan/model',device=self.dev)
             
     def load_model(self, spk_mix_enable=False):
         # get model configuration

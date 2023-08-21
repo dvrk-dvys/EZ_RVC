@@ -28,7 +28,7 @@ def download_dict():
     }
 
 
-def get_speech_encoder(config_path="configs/config.json"):
+def get_speech_encoder(config_path="dataset/configs/config.json"):
     import json
 
     with open(config_path, "r") as f:
