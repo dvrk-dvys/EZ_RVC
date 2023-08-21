@@ -195,14 +195,14 @@ class Svc(object):
                     zip_path)
                 # Unzipping the model
                 # enhancer_model_path = 'content/drive/MyDrive/dataset/44k/44k/nsf_hifigan/'
-                enhancer_model_path = './model_dir/pretrain/nsf_hifigan/nsf_hifigan'
+                enhancer_model_path = './model_dir/pretrain/nsf_hifigan/'
 
                 with zipfile.ZipFile(zip_path, 'r') as zip_ref:
                     zip_ref.extractall(enhancer_model_path)
             else:
                 enhancer_model_path = 'model_dir/pretrain/nsf_hifigan/'
 
-            self.enhancer = Enhancer('nsf-hifigan', enhancer_model_path,device=self.dev)
+            self.enhancer = Enhancer('nsf-hifigan', enhancer_model_path, device=self.dev)
             
     def load_model(self, spk_mix_enable=False):
         # get model configuration
@@ -365,7 +365,7 @@ class Svc(object):
         # unload model
         self.net_g_ms = self.net_g_ms.to("cpu")
         del self.net_g_ms
-        if hasattr(self,"enhancer"): 
+        if hasattr(self, "enhancer"):
             self.enhancer.enhancer = self.enhancer.enhancer.to("cpu")
             del self.enhancer.enhancer
             del self.enhancer
