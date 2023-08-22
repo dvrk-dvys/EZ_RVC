@@ -26,7 +26,7 @@ def load_model(model_path, device='cuda'):
     del cp_dict
     return generator, h
 
-def load_config(config_path='content/EZ_RVC/model_dir/pretrain/nsf_hifigan/config.json'):
+def load_config(config_path='/content/EZ_RVC/model_dir/pretrain/nsf_hifigan/config.json'):
     # config_file = os.path.join(os.path.split(model_path)[0] , 'config.json')
     # config_file = os.path.join('./model_dir/pretrain/nsf_hifigan/config.json', 'config.json')
 
