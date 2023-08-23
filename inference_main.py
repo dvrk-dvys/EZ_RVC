@@ -158,6 +158,7 @@ def main():
             if use_spk_mix:
                 spk = "spk_mix"
             # res_path = f'results/{clean_name}_{key}_{spk}{cluster_name}_{isdiffusion}_{f0p}.{wav_format}'
+            # "/content/drive/MyDrive/dataset/44k/"
             res_path = BASE_PATH + 'results/' + f'{clean_name}_{key}_{spk}{cluster_name}_{isdiffusion}_{f0p}.{wav_format}'
 
             soundfile.write(res_path, audio, svc_model.target_sample, format=wav_format)
