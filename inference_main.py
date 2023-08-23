@@ -112,9 +112,9 @@ def main():
     infer_tool.fill_a_to_b(trans, clean_paths)
 
     is_running_in_colab
-
+    # !ls content/drive/MyDrive/dataset/44k/raw/PinkPantheress_Ice_Spice_Boys_a_liar_Almost_Studio_Acapella.wav
     if is_running_in_colab():
-        BASE_PATH = "/content/dataset/44k/"
+        BASE_PATH = "/content/drive/MyDrive/dataset/44k/"
     else:
         BASE_PATH = "./EZ_RVC/dataset/44k/"
 
