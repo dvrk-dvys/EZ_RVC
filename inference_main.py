@@ -120,7 +120,7 @@ def main():
 
     for clean_name, tran in zip(clean_paths, trans):
         # raw_audio_path = f"raw/{clean_name}"
-        raw_audio_path = BASE_PATH + "raw/{clean_name}"
+        raw_audio_path = BASE_PATH + f"raw/{clean_name}"
 
 
         if "." not in raw_audio_path:
@@ -158,7 +158,7 @@ def main():
             if use_spk_mix:
                 spk = "spk_mix"
             # res_path = f'results/{clean_name}_{key}_{spk}{cluster_name}_{isdiffusion}_{f0p}.{wav_format}'
-            res_path = BASE_PATH + 'results/{clean_name}_{key}_{spk}{cluster_name}_{isdiffusion}_{f0p}.{wav_format}'
+            res_path = BASE_PATH + 'results/' + f'{clean_name}_{key}_{spk}{cluster_name}_{isdiffusion}_{f0p}.{wav_format}'
 
             soundfile.write(res_path, audio, svc_model.target_sample, format=wav_format)
             svc_model.clear_empty()
