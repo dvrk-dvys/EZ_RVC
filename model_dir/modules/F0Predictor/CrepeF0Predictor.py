@@ -1,7 +1,7 @@
 import torch
 
-from modules.F0Predictor.crepe import CrepePitchExtractor
-from modules.F0Predictor.F0Predictor import F0Predictor
+from model_dir.modules.F0Predictor.crepe import CrepePitchExtractor
+from model_dir.modules.F0Predictor.F0Predictor import F0Predictor
 
 
 class CrepeF0Predictor(F0Predictor):
