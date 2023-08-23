@@ -8,8 +8,7 @@ from spkmix import spk_mix_map
 
 logging.getLogger('numba').setLevel(logging.WARNING)
 chunks_dict = infer_tool.read_temp("inference/chunks_temp.json")
-
-
+from utils import is_running_in_colab
 
 def main():
     import argparse
@@ -20,7 +19,7 @@ def main():
     parser.add_argument('-m', '--model_path', type=str, default="/Users/jordanharris/Code/PycharmProjects/EZ_RVC/model_dir/G_50000.pth", help='模型路径')
     parser.add_argument('-c', '--config_path', type=str, default="/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset/configs/config_colab.json", help='配置文件路径')
     parser.add_argument('-cl', '--clip', type=float, default=0, help='音频强制切片，默认0为自动切片，单位为秒/s')
-    parser.add_argument('-n', '--clean_names', type=str, nargs='+', default=["PinkPantheress_Ice_Spice_Boys_a_liar_Almost_Studio_Acapella.wav"], help='wav文件名列表，放在raw文件夹下')
+    parser.add_argument('-n', '--clean_paths', type=str, nargs='+', default=["PinkPantheress_Ice_Spice_Boys_a_liar_Almost_Studio_Acapella.wav"], help='wav文件名列表，放在raw文件夹下')
     parser.add_argument('-t', '--trans', type=int, nargs='+', default=[0], help='音高调整，支持正负（半音）')
     parser.add_argument('-s', '--spk_list', type=str, nargs='+', default=['sza'], help='合成目标说话人名称')
     
@@ -57,7 +56,7 @@ def main():
 
     args = parser.parse_args()
 
-    clean_names = args.clean_names
+    clean_paths = args.clean_paths
     trans = args.trans
     spk_list = args.spk_list
     slice_db = args.slice_db
@@ -110,9 +109,20 @@ def main():
     if use_spk_mix:
         spk_list = [spk_mix_map]
     
-    infer_tool.fill_a_to_b(trans, clean_names)
-    for clean_name, tran in zip(clean_names, trans):
-        raw_audio_path = f"raw/{clean_name}"
+    infer_tool.fill_a_to_b(trans, clean_paths)
+
+    is_running_in_colab
+
+    if is_running_in_colab():
+        BASE_PATH = "/content/dataset/44k/"
+    else:
+        BASE_PATH = "./EZ_RVC/dataset/44k/"
+
+    for clean_name, tran in zip(clean_paths, trans):
+        # raw_audio_path = f"raw/{clean_name}"
+        raw_audio_path = BASE_PATH + "raw/{clean_name}"
+
+
         if "." not in raw_audio_path:
             raw_audio_path += ".wav"
         infer_tool.format_wav(raw_audio_path)
@@ -147,7 +157,9 @@ def main():
                 isdiffusion = "diff"
             if use_spk_mix:
                 spk = "spk_mix"
-            res_path = f'results/{clean_name}_{key}_{spk}{cluster_name}_{isdiffusion}_{f0p}.{wav_format}'
+            # res_path = f'results/{clean_name}_{key}_{spk}{cluster_name}_{isdiffusion}_{f0p}.{wav_format}'
+            res_path = BASE_PATH + 'results/{clean_name}_{key}_{spk}{cluster_name}_{isdiffusion}_{f0p}.{wav_format}'
+
             soundfile.write(res_path, audio, svc_model.target_sample, format=wav_format)
             svc_model.clear_empty()
             
