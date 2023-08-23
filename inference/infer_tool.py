@@ -195,15 +195,15 @@ class Svc(object):
                     zip_path)
                 # Unzipping the model
                 # enhancer_model_path = 'content/drive/MyDrive/dataset/44k/44k/nsf_hifigan/'
-                _enhancer_model_path = './model_dir/pretrain/nsf_hifigan/'
+                unzip_model_path = './model_dir/pretrain/nsf_hifigan/'
 
                 with zipfile.ZipFile(zip_path, 'r') as zip_ref:
-                    zip_ref.extractall(_enhancer_model_path)
+                    zip_ref.extractall(unzip_model_path)
                 # Check if the file "model" exists and rename it to "model.pth"
-                model_file_path = os.path.join(_enhancer_model_path + 'nsf_hifigan/', "model")
+                model_file_path = os.path.join(unzip_model_path + 'nsf_hifigan/', "model")
                 if os.path.exists(model_file_path):
-                    enhancer_model_path = os.path.join(_enhancer_model_path, "model.pth")
-                    os.rename(model_file_path, os.path.join(enhancer_model_path, "model.pth"))
+                    enhancer_model_path = os.path.join(model_file_path, "model.pth")
+                    os.rename(model_file_path, enhancer_model_path)
             else:
                 enhancer_model_path = 'model_dir/pretrain/nsf_hifigan/'
 
