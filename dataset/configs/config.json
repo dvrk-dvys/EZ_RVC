@@ -1,6 +1,6 @@
 {
   "train": {
-    "log_interval": 5,
+    "log_interval": 250,
     "eval_interval": 80,
     "seed": 1234,
     "epochs": 1000,
