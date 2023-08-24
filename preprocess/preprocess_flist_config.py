@@ -48,11 +48,12 @@ if __name__ == "__main__":
     #     spk_id += 1
     #     wavs = ["/".join([args.source_dir, speaker, i]) for i in os.listdir(os.path.join(args.source_dir, speaker))]
     # Assuming the speaker's data is in the root of args.source_dir
-    spk_dict = {"sza": 0}  # Assign the speaker ID directly
+    spk = 'sza_singing'
+    spk_dict = {spk: 0}  # Assign the speaker ID directly
     # wav_path = "/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset_raw/sza_resample_splits"
     # wav_path = "/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset/44k/sza"
-    wav_path = "dataset/44k/sza"
-    wavs = [os.path.join(args.source_dir + '44k/sza', i) for i in os.listdir(wav_path) if i.endswith('.wav')]
+    wav_path = "dataset/44k/" + spk
+    wavs = [os.path.join(args.source_dir + '44k/' + spk, i) for i in os.listdir(wav_path) if i.endswith('.wav')]
 
     # wavs = ''
     new_wavs = []

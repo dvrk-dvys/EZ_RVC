@@ -1,2 +1,2 @@
-/content/drive/MyDrive/dataset/44k/sza/SZA__billboard_raw_interview_295.wav
-/content/drive/MyDrive/dataset/44k/sza/SZA__billboard_raw_interview_118.wav
+/content/drive/MyDrive/dataset/44k/sza_singing/1_SZA__Supermodel_Filtered_Acapella_Vocals_8.wav
+/content/drive/MyDrive/dataset/44k/sza_singing/15_SZA__20_Something_Filtered_Acapella_Vocals_5.wav

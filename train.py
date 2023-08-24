@@ -37,7 +37,7 @@ def main():
     """Assume Single Node Multi GPUs Training Only"""
     # assert torch.cuda.is_available(), "CPU training is not allowed."
     # assert torch.mps.is_available(), "Training is not allowed without PyTorch."
-    hps = utils.get_hparams()
+    hps = utils.get_hparams('--config' "/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset/configs/config.json")
 
     n_gpus = torch.cuda.device_count()
     os.environ['MASTER_ADDR'] = 'localhost'
