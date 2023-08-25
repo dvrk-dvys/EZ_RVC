@@ -1,7 +1,9 @@
 *.pt
 *.pth
+*.npy
 *.wav
 *.zip
+*.flac
 
 
 # Byte-compiled / optimized / DLL files
