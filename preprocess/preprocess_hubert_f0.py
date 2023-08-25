@@ -21,8 +21,8 @@ from model_dir.modules.mel_processing import spectrogram_torch
 logging.getLogger("numba").setLevel(logging.WARNING)
 logging.getLogger("matplotlib").setLevel(logging.WARNING)
 
-hps = utils.get_hparams_from_file("/dataset_/configs/config.json")
-dconfig = du.load_config("/dataset_/configs/diffusion.yaml")
+hps = utils.get_hparams_from_file("./dataset/configs/config_colab.json")
+dconfig = du.load_config("./dataset/configs/diffusion.yaml")
 sampling_rate = hps.data.sampling_rate
 hop_length = hps.data.hop_length
 speech_encoder = hps["model"]["speech_encoder"]

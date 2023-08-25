@@ -51,7 +51,7 @@ class Preprocess:
         self.hop_seconds = hop_seconds
 
 
-def slice(wav_path, file_name):
+def slice(wav_path, file_name, output_path):
     audio, sr = librosa.load(wav_path, sr=None, mono=False)  # Load an audio file with librosa.
     slicer = Slicer(
         sr=sr,
@@ -66,7 +66,9 @@ def slice(wav_path, file_name):
     for i, chunk in enumerate(chunks):
         if len(chunk.shape) > 1:
             chunk = chunk.T  # Swap axes if the audio is stereo.
-        soundfile.write(f'/preprocess/output/sza_slices_22050/{file_name}_{i}.wav', chunk, sr)  # Save sliced audio files with soundfile.
+        # soundfile.write(f'/preprocess/output/sza_slices_22050/{file_name}_{i}.wav', chunk, sr)  # Save sliced audio files with soundfile.
+        soundfile.write(f'{output_path}{file_name}_{i}.wav', chunk, sr)  # Save sliced audio files with soundfile.
+
         flipped_chunks.append(chunk)
     return flipped_chunks
 
@@ -283,7 +285,8 @@ def extract_main_singer_segments(wav_path, rttm_path):
 if __name__ == '__main__':
 
     # input_dir = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/input/SZA_CTRL/'  # Replace with your actual input directory
-    # input_dir = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset_raw/SZA_CTRL/'  # Replace with your actual input directory
+    # input_dir = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset_raw/SZA_SOS/'# Replace with your actual input directory
+    input_dir = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset_raw/Ted Cruz/'# Replace with your actual input directory
     output_dir = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/preprocess/output/'
     # speaker diairization test
     # file = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/input/SZA_CTRL/3_SZA - Love Galore (feat. Travis Scott) (Filtered Acapella)_(Vocals).wav'
@@ -297,22 +300,23 @@ if __name__ == '__main__':
     # 0.
     # https://github.com/openvpi/audio-slicer
     # Slice!!!!
-    # for root, dirs, files in os.walk(input_dir):
-    #     for file in files:
-    #         if file.endswith('.wav'):
-    #
-    #             _file_name = file.split('/')[-1]
-    #             _file_name = _file_name.split('.wav')[0]
-    #             file_name = re.sub('[^\w\s]', '', _file_name)
-    #             file_name = re.sub(' ', '_', file_name)
-    #             print(file_name)
-    #
-    #             slices = slice(root + file, file_name)
+    slice_dir = 'ted_cruz_slices'
+    for root, dirs, files in os.walk(input_dir):
+        for file in files:
+            if file.endswith('.wav'):
+
+                _file_name = file.split('/')[-1]
+                _file_name = _file_name.split('.wav')[0]
+                file_name = re.sub('[^\w\s]', '', _file_name)
+                file_name = re.sub(' ', '_', file_name)
+                print(file_name)
+
+                slices = slice(root + file, file_name, f'preprocess/output/{slice_dir}/')
     #// Slice!!
 
     # # Resample!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     #
-    input_dir = 'preprocess/output/sza_diairized_slices'  # Replace with your actual input directory
+    input_dir = f'preprocess/output/{slice_dir}'  # Replace with your actual input directory
 
     for root, dirs, files in os.walk(input_dir):
         for file in files:
@@ -322,7 +326,7 @@ if __name__ == '__main__':
 
                 # Resample the audio file
                 y, sr = resample(root + '/' + file, target_sample_rate)
-                output_path = os.path.join(output_dir + 'sza_resample_44k/', file_name)
+                output_path = os.path.join(output_dir + 'ted_cruz_resample_44k/', file_name)
 
                 # Ensure the output directory exists
                 os.makedirs(os.path.dirname(output_path), exist_ok=True)

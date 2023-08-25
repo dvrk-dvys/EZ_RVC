@@ -1,2 +1,2 @@
-/content/drive/MyDrive/dataset/44k/sza_singing/1_SZA__Supermodel_Filtered_Acapella_Vocals_8.wav
-/content/drive/MyDrive/dataset/44k/sza_singing/15_SZA__20_Something_Filtered_Acapella_Vocals_5.wav
+/content/drive/MyDrive/dataset/44k/sza_singing/SZA_Nobody_Gets_Me_4.wav
+/content/drive/MyDrive/dataset/44k/sza_singing/10_SZA__Normal_Girl_Filtered_Acapella_Vocals_4.wav
