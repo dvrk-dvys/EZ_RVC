@@ -102,7 +102,7 @@ def main():
                     use_spk_mix,
                     args.feature_retrieval)
     
-    infer_tool.mkdir(["raw", "results"])
+    # infer_tool.mkdir(["raw", "results"])
     
     if len(spk_mix_map)<=1:
         use_spk_mix = False
