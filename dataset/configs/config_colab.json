@@ -102,6 +102,7 @@
     "use_transformer_flow": false
   },
   "spk": {
-    "sza": 0
+    "sza": 0,
+    "ted_cruz": 0
   }
 }

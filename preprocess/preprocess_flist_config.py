@@ -28,8 +28,8 @@ def get_wav_duration(file_path):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--train_list", type=str, default="./dataset/filelists/train_colab.txt", help="path to train list")
-    parser.add_argument("--val_list", type=str, default="./dataset/filelists/val_colab.txt", help="path to val list")
+    parser.add_argument("--train_list", type=str, default="./dataset/filelists/train_colab_cruz.txt", help="path to train list")
+    parser.add_argument("--val_list", type=str, default="./dataset/filelists/val_colab_cruz.txt", help="path to val list")
     # parser.add_argument("--source_dir", type=str, default="./dataset/44k", help="path to source dir")
     parser.add_argument("--source_dir", type=str, default="dataset/", help="path to source dir")
     parser.add_argument("--speech_encoder", type=str, default="hubertsoft", help="choice a speech encoder|'vec768l12','vec256l9','hubertsoft','whisper-ppg','cnhubertlarge','dphubert','whisper-ppg-large','wavlmbase+'")
@@ -48,7 +48,7 @@ if __name__ == "__main__":
     #     spk_id += 1
     #     wavs = ["/".join([args.source_dir, speaker, i]) for i in os.listdir(os.path.join(args.source_dir, speaker))]
     # Assuming the speaker's data is in the root of args.source_dir
-    spk = 'sza_singing'
+    spk = 'ted_cruz'
     spk_dict = {spk: 0}  # Assign the speaker ID directly
     # wav_path = "/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset_raw/sza_resample_splits"
     # wav_path = "/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset/44k/sza"

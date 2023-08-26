@@ -135,7 +135,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-d', '--device', type=str, default=None)
     parser.add_argument(
-        "--in_dir", type=str, default="dataset/44k", help="path to input dir"
+        "--in_dir", type=str, default="dataset/44k/ted_cruz", help="path to input dir"
     )
     parser.add_argument(
         '--use_diff',action='store_true', help='Whether to use the diffusion model'
@@ -166,7 +166,7 @@ if __name__ == "__main__":
         print("Loaded Mel Extractor.")
     else:
         mel_extractor = None
-    filenames = glob(f"{args.in_dir}/*/*.wav", recursive=True)  # [:10]
+    filenames = glob(f"{args.in_dir}/*.wav", recursive=True)  # [:10]
     shuffle(filenames)
     mp.set_start_method("spawn", force=True)
 
