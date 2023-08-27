@@ -341,27 +341,6 @@ if __name__ == '__main__':
                     print()
     # #// Resample!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-
-    # diarization runtime error !!!!!!!!!!!
-    # resample_dir = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/output/preprocess/sza_resample_new/'
-    # # "NotImplementedError: The operator 'aten::_fft_r2c' is not currently implemented for the MPS device. If you want this op to be added in priority during the prototype phase of this feature, please comment on https://github.com/pytorch/pytorch/issues/77764. As a temporary fix, you can set the environment variable `PYTORCH_ENABLE_MPS_FALLBACK=1` to use the CPU as a fallback for this op. WARNING: this will be slower than running natively on MPS."
-    # hf_token = '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'
-    # for root, dirs, files in os.walk(resample_dir):
-    #     for file in files:
-    #         if file.endswith('.wav'):
-    #             audio, sr = librosa.load(root + file, sr=None, mono=False)  # Load an audio file with librosa.
-    #
-    #             diarized_segments = speaker_diarization(root + file, sr=sr, min_speakers=1, max_speakers=2, huggingface_token=hf_token)
-    #
-    #             file_name = file.split('/')[-1]
-    #
-    #             # dump the diarization output to disk using RTTM format
-    #             with open(output_dir + 'sza_diairized_new/' + file_name + "audio.rttm", "w") as rttm:
-    #                 diarized_segments.write_rttm(rttm)
-
-    # //// diarization runtime error
-
-
     # diairization local !!!!!!!!!!!
     # resample_dir = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/output/preprocess/sza_resample_new/'
     #
@@ -392,11 +371,6 @@ if __name__ == '__main__':
     # # Split the temporary data into validation and test sets
     # eval_segments, test_segments = train_test_split(temp_segments, train_size=0.5, test_size=0.5)
     # print()
-
-
-
-# the speech encoder being used is hubert "speech_encoder"
-#     hmodel = utils.get_speech_encoder(speech_encoder, device=device)
 
 
 # https://huggingface.co/datasets/ms903/sovits4.0-768vec-layer12/resolve/main/sovits_768l12_pre_large_320k/clean_D_320000.pth
