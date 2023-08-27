@@ -27,7 +27,7 @@ from slicer2 import Slicer
 
 # contentvec
 # !wget -P pretrain/ https://huggingface.co/lj1995/VoiceConversionWebUI/resolve/main/hubert_base.pt -O checkpoint_best_legacy_500.pt
-hubert_base = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/model_dir/checkpoint_best_legacy_500.pt'
+hubert_base = './EZ_RVC/model_dir/checkpoint_best_legacy_500.pt'
 # Alternatively, you can manually download and place it in the hubert directory
 
 
@@ -284,10 +284,9 @@ def extract_main_singer_segments(wav_path, rttm_path):
 
 if __name__ == '__main__':
 
-    # input_dir = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/input/SZA_CTRL/'  # Replace with your actual input directory
-    # input_dir = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset_raw/SZA_SOS/'# Replace with your actual input directory
-    input_dir = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset_raw/Ted Cruz/'# Replace with your actual input directory
-    output_dir = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/preprocess/output/'
+    input_dir = './input/SZA_CTRL/'  # Replace with your actual input directory
+    # input_dir = './dataset_raw/SZA_SOS/'# Replace with your actual input directory
+    output_dir = './preprocess/output/'
     # speaker diairization test
     # file = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/input/SZA_CTRL/3_SZA - Love Galore (feat. Travis Scott) (Filtered Acapella)_(Vocals).wav'
 
@@ -342,7 +341,7 @@ if __name__ == '__main__':
     # #// Resample!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     # diairization local !!!!!!!!!!!
-    # resample_dir = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/output/preprocess/sza_resample_new/'
+    # resample_dir = './EZ_RVC/output/preprocess/sza_resample_new/'
     #
     # # slices = slice(wav_path)
     # wav_file_paths = []
@@ -351,7 +350,7 @@ if __name__ == '__main__':
     #         file_path = os.path.join(resample_dir, filename)
     #         wav_file_paths.append(file_path)
     #
-    # diairized_dir = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/output/preprocess/sza_diairized_timestamps/'
+    # diairized_dir = './EZ_RVC/output/preprocess/sza_diairized_timestamps/'
     #
     # rttm_file_paths = []
     # for filename in os.listdir(diairized_dir):
