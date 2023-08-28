@@ -342,7 +342,7 @@ def get_hparams(init=True):
   config_save_path = os.path.join(model_dir, "config.json")
   if init:
     with open(config_path, "r") as f:
-      data = f.read()
+        data = f.read()
     with open(config_save_path, "w") as f:
       f.write(data)
   else:
