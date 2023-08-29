@@ -16,10 +16,10 @@ def main():
     parser = argparse.ArgumentParser(description='sovits4 inference')
 
     # 一定要设置的部分
-    parser.add_argument('-m', '--model_path', type=str, default="/Users/jordanharris/Code/PycharmProjects/EZ_RVC/model_dir/G_80250.pth", help='模型路径')
+    parser.add_argument('-m', '--model_path', type=str, default="/Users/jordanharris/Code/PycharmProjects/EZ_RVC/model_dir/sza/sza_old_G_80250.pth", help='模型路径')
     parser.add_argument('-c', '--config_path', type=str, default="/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset/configs/config_colab.json", help='配置文件路径')
     parser.add_argument('-cl', '--clip', type=float, default=0, help='音频强制切片，默认0为自动切片，单位为秒/s')
-    parser.add_argument('-n', '--clean_paths', type=str, nargs='+', default=["Aaliyah_4_Page_Letter_A_Capella"], help='wav文件名列表，放在raw文件夹下')
+    parser.add_argument('-n', '--clean_paths', type=str, nargs='+', default=["vocal_test"], help='wav文件名列表，放在raw文件夹下')
     parser.add_argument('-t', '--trans', type=int, nargs='+', default=[0], help='音高调整，支持正负（半音）')
     parser.add_argument('-s', '--spk_list', type=str, nargs='+', default=['sza_singing'], help='合成目标说话人名称')
     
@@ -120,6 +120,7 @@ def main():
     for clean_name, tran in zip(clean_paths, trans):
         # raw_audio_path = f"raw/{clean_name}"
         raw_audio_path = BASE_PATH + f"raw/{clean_name}"
+        raw_audio_path = './dataset/44k/raw/voice_test.wav'
 
 
         if "wav" not in raw_audio_path:

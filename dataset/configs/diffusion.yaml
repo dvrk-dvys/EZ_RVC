@@ -30,7 +30,7 @@ model:
   type: Diffusion
   use_pitch_aug: true
 spk:
-  sza: 0
+  sza_singing: 0
 train:
   amp_dtype: fp32
   batch_size: 48
