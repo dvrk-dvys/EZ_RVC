@@ -164,8 +164,14 @@ def is_running_in_colab():
 def load_checkpoint(checkpoint_path, model, optimizer=None, skip_optimizer=False):
     assert os.path.isfile(checkpoint_path)
     checkpoint_dict = torch.load(checkpoint_path, map_location='cpu')
-    iteration = checkpoint_dict['iteration']
-    learning_rate = checkpoint_dict['learning_rate']
+    try:
+        iteration = checkpoint_dict['iteration']
+        learning_rate = checkpoint_dict['learning_rate']
+
+    except:
+        iteration = checkpoint_dict['info']
+        learning_rate = 0.0001
+
     if optimizer is not None and not skip_optimizer and checkpoint_dict['optimizer'] is not None:
         optimizer.load_state_dict(checkpoint_dict['optimizer'])
     saved_state_dict = checkpoint_dict['model']
