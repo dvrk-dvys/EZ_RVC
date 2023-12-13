@@ -1,6 +1,9 @@
 import logging
+import re
 
 import soundfile
+from pydub import AudioSegment
+
 
 from inference import infer_tool
 from inference.infer_tool import Svc
@@ -16,12 +19,12 @@ def main():
     parser = argparse.ArgumentParser(description='sovits4 inference')
 
     # 一定要设置的部分
-    parser.add_argument('-m', '--model_path', type=str, default="/Users/jordanharris/Code/PycharmProjects/EZ_RVC/model_dir/sza/solana/solana.pth", help='模型路径')
-    parser.add_argument('-c', '--config_path', type=str, default="/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset/configs/config_colab.json", help='配置文件路径')
+    parser.add_argument('-m', '--model_path', type=str, default="/Users/jordanharris/Code/PycharmProjects/EZ_RVC/model_dir/cruz/G_172500.pth", help='模型路径')
+    parser.add_argument('-c', '--config_path', type=str, default="/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset/configs/config_colab_ow.json", help='配置文件路径')
     parser.add_argument('-cl', '--clip', type=float, default=0, help='音频强制切片，默认0为自动切片，单位为秒/s')
-    parser.add_argument('-n', '--clean_paths', type=str, nargs='+', default=["Brandy - I Wanna Be Down"], help='wav文件名列表，放在raw文件夹下')
+    parser.add_argument('-n', '--clean_paths', type=str, nargs='+', default=["ow_lw_1"], help='wav文件名列表，放在raw文件夹下')
     parser.add_argument('-t', '--trans', type=int, nargs='+', default=[0], help='音高调整，支持正负（半音）')
-    parser.add_argument('-s', '--spk_list', type=str, nargs='+', default=['sza_singing'], help='合成目标说话人名称')
+    parser.add_argument('-s', '--spk_list', type=str, nargs='+', default=['lifeweaver'], help='合成目标说话人名称')
     
     # 可选项部分
     parser.add_argument('-a', '--auto_predict_f0', action='store_true', default=False, help='语音转换自动预测音高，转换歌声时不要打开这个会严重跑调')
@@ -119,13 +122,22 @@ def main():
 
     for clean_name, tran in zip(clean_paths, trans):
         # raw_audio_path = f"raw/{clean_name}"
-        raw_audio_path = BASE_PATH + f"raw/{clean_name}"
-        raw_audio_path = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset_raw/Misc/Brandy - I Wanna Be Down (A Cappella).wav'
+        # raw_audio_path = BASE_PATH + f"raw/{clean_name}"
+        # raw_audio_path = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset_raw/Misc/Brandy - I Wanna Be Down (A Cappella).wav'
+        # raw_audio_path = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset/44k/raw/PinkPantheress_Ice_Spice_Boys_a_liar_Almost_Studio_Acapella.wav'
+        raw_audio_path = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset_raw/Ted Cruz/Texas_1.m4a'
 
+        if '.m4a' in raw_audio_path:
+            # Load .m4a file
+            audio = AudioSegment.from_file(raw_audio_path, format="m4a")
+            output_path = re.sub(r'\.m4a$', '.wav', raw_audio_path)
 
-        if "wav" not in raw_audio_path:
+            # Convert to .wav
+            audio.export(output_path, format="wav")
+            raw_audio_path = output_path
+        elif "wav" not in raw_audio_path:
             raw_audio_path += ".wav"
-        infer_tool.format_wav(raw_audio_path)
+            infer_tool.format_wav(raw_audio_path)
         for spk in spk_list:
             kwarg = {
                 "raw_audio_path" : raw_audio_path,

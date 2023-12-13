@@ -121,7 +121,15 @@ def text_to_sequence(text):
 def speak_macos(text, filename="siri_test.wav"):
     os.system(f'say {text} -o {filename} --data-format=LEI16@22050')
 
-text = """Hello world! Text to speech! There are razor blades in the rio grande. please vote!"""
+text = """Hey Y'all! This is Ted Cruz speaking! I want to talk to you about the upcoming election cycle! 
+         I have two interesting facts to share with you. 
+         Number 1! During my tenure as a Senator of the State of Texas, my administration has put razor blades in the rio-grande river 
+         to defend against illegal immigrants.
+         Number 2! there was a time right before the election of President Obama that Texas was 'feared' to be 'turning purple'.
+         After Georgia's recent flip and the rapidly changing demographics of the south, texan leadership is now, more than ever before,
+         afraid of its own constituency. This here, explains Gods razor blades. Here are some battle ground
+         counties and regional elections to think about. And as always....Please vote!"""
+
 print(text_to_sequence(text))
 
 # speak_macos(text, filename="siri_test.wav")

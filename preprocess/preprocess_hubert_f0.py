@@ -135,7 +135,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-d', '--device', type=str, default=None)
     parser.add_argument(
-        "--in_dir", type=str, default="dataset/44k/ted_cruz", help="path to input dir"
+        "--in_dir", type=str, default="dataset/44k/eric_adams", help="path to input dir"
     )
     parser.add_argument(
         '--use_diff',action='store_true', help='Whether to use the diffusion model'

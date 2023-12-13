@@ -118,6 +118,9 @@ class Slicer:
 
 
 def cut(audio_path, db_thresh=-30, min_len=5000):
+    import os
+    cwd = os.getcwd()
+    print(cwd)
     audio, sr = librosa.load(audio_path, sr=None)
     slicer = Slicer(
         sr=sr,

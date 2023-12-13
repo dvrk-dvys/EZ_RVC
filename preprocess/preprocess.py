@@ -52,6 +52,9 @@ class Preprocess:
 
 
 def slice(wav_path, file_name, output_path):
+    if not os.path.exists(output_path):
+        os.makedirs(output_path)
+
     audio, sr = librosa.load(wav_path, sr=None, mono=False)  # Load an audio file with librosa.
     slicer = Slicer(
         sr=sr,
@@ -284,9 +287,16 @@ def extract_main_singer_segments(wav_path, rttm_path):
 
 if __name__ == '__main__':
 
-    input_dir = './input/SZA_CTRL/'  # Replace with your actual input directory
-    # input_dir = './dataset_raw/SZA_SOS/'# Replace with your actual input directory
+    print("Current Working Directory: ", os.getcwd())
+
+    # input_dir = './input/SZA_CTRL/'  # Replace with your actual input directory
+    # input_dir = './dataset/44k/scripts/'
+    input_dir = './dataset_raw/eric_adams/'
+
+    # input_dir = './dataset_raw/SZA_SOS/' # Replace with your actual input directory
     output_dir = './preprocess/output/'
+    # output_dir ='./dataset_raw/Scripts/'
+
     # speaker diairization test
     # file = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/input/SZA_CTRL/3_SZA - Love Galore (feat. Travis Scott) (Filtered Acapella)_(Vocals).wav'
 
@@ -299,24 +309,30 @@ if __name__ == '__main__':
     # 0.
     # https://github.com/openvpi/audio-slicer
     # Slice!!!!
-    slice_dir = 'ted_cruz_slices'
-    for root, dirs, files in os.walk(input_dir):
-        for file in files:
-            if file.endswith('.wav'):
+    slice_dir = 'eric_adams_slices'
 
-                _file_name = file.split('/')[-1]
-                _file_name = _file_name.split('.wav')[0]
-                file_name = re.sub('[^\w\s]', '', _file_name)
-                file_name = re.sub(' ', '_', file_name)
-                print(file_name)
+    if not os.path.exists(input_dir):
+        print(f"Directory not found: {input_dir}")
+    else:
+        print(f"Searching in: {input_dir}")
 
-                slices = slice(root + file, file_name, f'preprocess/output/{slice_dir}/')
+        for root, dirs, files in os.walk(input_dir):
+            for file in files:
+                if file.endswith('.wav'):
+
+                    _file_name = file.split('/')[-1]
+                    _file_name = _file_name.split('.wav')[0]
+                    file_name = re.sub('[^\w\s]', '', _file_name)
+                    file_name = re.sub(' ', '_', file_name)
+                    print(file_name)
+
+                    slices = slice(root + file, file_name, f'preprocess/output/{slice_dir}/')
     #// Slice!!
 
     # # Resample!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     #
     input_dir = f'preprocess/output/{slice_dir}'  # Replace with your actual input directory
-
+    resampled = 'eric_adams'
     for root, dirs, files in os.walk(input_dir):
         for file in files:
             if file.endswith('.wav'):
@@ -325,7 +341,7 @@ if __name__ == '__main__':
 
                 # Resample the audio file
                 y, sr = resample(root + '/' + file, target_sample_rate)
-                output_path = os.path.join(output_dir + 'ted_cruz_resample_44k/', file_name)
+                output_path = os.path.join(output_dir + resampled + '_resample_44k/', file_name)
 
                 # Ensure the output directory exists
                 os.makedirs(os.path.dirname(output_path), exist_ok=True)
