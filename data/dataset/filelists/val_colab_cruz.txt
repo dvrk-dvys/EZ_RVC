@@ -1,0 +1,2 @@
+/content/drive/MyDrive/dataset/44k/ted_cruz/1_Ted_Cruz_Liberty_University_Convocation_clean_78.wav
+/content/drive/MyDrive/dataset/44k/ted_cruz/1_Ted_Cruz_2021_CPAC_clean_24.wav
