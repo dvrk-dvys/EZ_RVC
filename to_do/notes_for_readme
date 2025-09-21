@@ -169,3 +169,41 @@
   - You need multilingual support → whisper-ppg
 
   Your default is perfect for most use cases.
+
+
+  ---
+
+  headaches. Here’s a concise, copy-paste-ready blurb you can use:
+
+📦 Git LFS (Large File Storage)
+
+This project uses Git LFS
+ to handle large model files (e.g., .pt, .pth, .ckpt, .onnx).
+
+🔹 Why LFS?
+Normal Git isn’t designed for huge binary files — they bloat the repo, slow down clones, and break GitHub’s 100 MB file limit. Git LFS solves this by:
+
+Replacing the large file in Git with a lightweight pointer file (just a few KB).
+
+Storing the actual large file outside the Git history, in GitHub’s LFS storage.
+
+Downloading the correct version of the large file on demand when you git clone or git pull.
+
+🔹 How it works in this repo
+
+We track all model weights via LFS (*.pt, *.pth, *.onnx, *.ckpt).
+
+When you clone this repo, Git LFS will automatically fetch the model weights.
+
+If you don’t have Git LFS installed, you’ll only see small pointer files instead of real models.
+
+🔹 Setup
+To install Git LFS:
+
+brew install git-lfs     # macOS
+sudo apt-get install git-lfs  # Linux (Debian/Ubuntu)
+choco install git-lfs    # Windows
+git lfs install
+
+
+That’s it — now you’ll pull/push large files seamlessly.

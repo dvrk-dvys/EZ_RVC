@@ -9,6 +9,7 @@ repos:
     -   id: check-yaml               # Validates YAML file syntax (docker-compose, configs)
         exclude: ^to_do/
     -   id: check-added-large-files  # Prevents accidentally committing large files (>500KB)
+        args: [ '--maxkb=50000' ]  # 50 MB
         exclude: ^to_do/
     -   id: detect-aws-credentials   # Scans for AWS access keys and secrets
     -   id: detect-private-key       # Detects SSH private keys and certificates

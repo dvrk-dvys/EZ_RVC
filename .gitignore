@@ -5,6 +5,8 @@
 *.tar
 *.pt
 *.pth
+*.onnx
+*.ckpt
 *.npy
 *.wav
 *.zip

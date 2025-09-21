@@ -2,8 +2,8 @@ import argparse
 import os
 import re
 
-import librosa  # Optional. Use any library you like to read audio files.
-import soundfile  # Optional. Use any library you like to write audio files.
+import librosa
+import soundfile
 
 from app.utils.pre_utils import convert_to_wav, gen_spk_config
 from app.utils.slicer import Slicer
@@ -108,7 +108,7 @@ if __name__ == "__main__":
     # hubert_base = './data/weights/encoders/checkpoint_best_legacy_500.pt'
 
     raw_audio_dir = "/Users/jordanharris/Code/EZ_RVC/data/raw/nat_king_cole"
-    speaker = "speaker"
+    speaker = "nat_king_cole"
 
     parser = argparse.ArgumentParser(description="EZ_RVC preprocessing")
 
@@ -117,14 +117,14 @@ if __name__ == "__main__":
         type=str,
         required=True,
         default=raw_audio_dir,
-        help="Path to raw audio files (directory or single file)",
+        help="Path to raw audio files (directory or single file).",
     )
     parser.add_argument(
         "--speaker_name",
         type=str,
         required=True,
         default=speaker,
-        help="Speaker name identifier (e.g., 'nat_king_cole')",
+        help="Speaker name identifier (e.g., 'nat_king_cole').",
     )
     parser.add_argument(
         "--speech_encoder",
