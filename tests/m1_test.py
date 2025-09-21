@@ -2,21 +2,24 @@
 
 # Press ⌃R to execute it or replace it with your code.
 # Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
-import torch
 import math
+
+import torch
+
 # this ensures that the current MacOS version is at least 12.3+
 print(torch.backends.mps.is_available())
 # this ensures that the current current PyTorch installation was built with MPS activated.
 print(torch.backends.mps.is_built())
 
+
 def print_hi(name):
     # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+    print(f"Hi, {name}")  # Press ⌘F8 to toggle the breakpoint.
 
 
 # Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+if __name__ == "__main__":
+    print_hi("PyCharm")
 
     dtype = torch.float
     device = torch.device("mps")
@@ -34,7 +37,7 @@ if __name__ == '__main__':
     learning_rate = 1e-6
     for t in range(2000):
         # Forward pass: compute predicted y
-        y_pred = a + b * x + c * x ** 2 + d * x ** 3
+        y_pred = a + b * x + c * x**2 + d * x**3
 
         # Compute and print loss
         loss = (y_pred - y).pow(2).sum().item()
@@ -45,8 +48,8 @@ if __name__ == '__main__':
         grad_y_pred = 2.0 * (y_pred - y)
         grad_a = grad_y_pred.sum()
         grad_b = (grad_y_pred * x).sum()
-        grad_c = (grad_y_pred * x ** 2).sum()
-        grad_d = (grad_y_pred * x ** 3).sum()
+        grad_c = (grad_y_pred * x**2).sum()
+        grad_d = (grad_y_pred * x**3).sum()
 
         # Update weights using gradient descent
         a -= learning_rate * grad_a
@@ -54,6 +57,6 @@ if __name__ == '__main__':
         c -= learning_rate * grad_c
         d -= learning_rate * grad_d
 
-    print(f'Result: y = {a.item()} + {b.item()} x + {c.item()} x^2 + {d.item()} x^3')
+    print(f"Result: y = {a.item()} + {b.item()} x + {c.item()} x^2 + {d.item()} x^3")
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

@@ -1,7 +1,7 @@
 import torch
+from vencoder import SpeechEncoder
 
 from app.models.vencoders.dphubert.model import wav2vec2_model
-from vencoder import SpeechEncoder
 
 
 class DPHubert(SpeechEncoder):
@@ -26,4 +26,4 @@ class DPHubert(SpeechEncoder):
         with torch.no_grad():
             with torch.inference_mode():
                 units = self.model(feats)[0]
-                return units.transpose(1,2)
+                return units.transpose(1, 2)

@@ -1,20 +1,18 @@
-import librosa
-from pydub import AudioSegment
-from collections import Counter
-import soundfile as sf
-import numpy as np
-from numpy import sqrt
-
-from scipy.io import wavfile
 import os
-from collections import defaultdict
+from collections import Counter, defaultdict
 
+import librosa
+import numpy as np
+import soundfile as sf
+from numpy import sqrt
+from pydub import AudioSegment
+from scipy.io import wavfile
 
 
 # Function to read RTTM file
 def read_rttm(rttm_file):
     segments = []
-    with open(rttm_file, 'r') as file:
+    with open(rttm_file, "r") as file:
         for line in file:
             parts = line.strip().split()
             start_time = float(parts[3]) * 1000  # Convert to milliseconds
@@ -22,10 +20,12 @@ def read_rttm(rttm_file):
             segments.append((start_time, start_time + duration))
     return segments
 
+
 def is_silent(segment, threshold=0.01):
     # Calculate RMS value
     rms = sqrt(np.mean(segment**2))
     return rms < threshold
+
 
 def apply_fade(segment, fade_length_samples):
     fade_in = np.linspace(0, 1, fade_length_samples)
@@ -37,19 +37,23 @@ def apply_fade(segment, fade_length_samples):
     segment[:fade_length_samples, 1] *= fade_in
     segment[-fade_length_samples:, 1] *= fade_out
     return segment
+
+
 def extract_main_singer_segments(wav_path, rttm_path):
     # Read the RTTM file and analyze the speaker labels
     annotations = []
     speaker_durations = []
 
-    with open(rttm_path, 'r', encoding='latin-1') as file:
+    with open(rttm_path, "r", encoding="latin-1") as file:
         for line in file:
             parts = line.strip().split()
             # if len(parts) >= 8:
             start = float(parts[3])
             duration = float(parts[4])
             speaker_id = parts[7]
-            annotations.append({'start': start, 'duration': duration, 'speaker': speaker_id})
+            annotations.append(
+                {"start": start, "duration": duration, "speaker": speaker_id}
+            )
             speaker_durations.append((speaker_id, duration))
 
         # Find the most frequent speaker label
@@ -65,7 +69,9 @@ def extract_main_singer_segments(wav_path, rttm_path):
     audio_data, sr = sf.read(wav_path)
     # audio = AudioSegment.from_wav(wav_path)
 
-    output_path = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset_raw/SZA_CTRL/'
+    output_path = (
+        "/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset_raw/SZA_CTRL/"
+    )
     # output_file_name = "2_SZA-Doves_In_The_Wind.wav"
     # output_file_name = "3_SZA-Love Galore.wav"
     # output_file_name = "8_SZA-Wavy.wav"
@@ -80,10 +86,10 @@ def extract_main_singer_segments(wav_path, rttm_path):
     for ann in annotations:
         # speaker_labels
         # if ann['speaker'] == MAIN_SPEAKER:
-        start_sample = int(ann['start'] * sr)
-        end_sample = int((ann['start'] + ann['duration']) * sr)
+        start_sample = int(ann["start"] * sr)
+        end_sample = int((ann["start"] + ann["duration"]) * sr)
         segment = audio_data[start_sample:end_sample]
-        segments[ann['speaker']].append(segment)
+        segments[ann["speaker"]].append(segment)
         # output_path = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/preprocess/original_file_' + str(ann['start']) + '.wav'
         # sf.write(output_path, segment, sr)
     # filtered_audio_data = audio_data * mask
@@ -92,7 +98,9 @@ def extract_main_singer_segments(wav_path, rttm_path):
     # sf.write(output_path, segments[4], sr)
     print()
     # Convert the defaultdict to a list of tuples
-    filtered_segments = [segment for segment in segments[MAIN_SPEAKER] if not is_silent(segment)]
+    filtered_segments = [
+        segment for segment in segments[MAIN_SPEAKER] if not is_silent(segment)
+    ]
 
     # Fade length in milliseconds; adjust as needed
     fade_length_ms = 15
@@ -102,7 +110,6 @@ def extract_main_singer_segments(wav_path, rttm_path):
     # Apply fade-in and fade-out to each segment
     for segment in filtered_segments:
         apply_fade(segment, fade_length_samples)
-
 
     concatenated_segments = np.concatenate(filtered_segments, axis=0)
     # concatenated_segments = remove_silence(concatenated_segments, threshold=0.01, min_silence_length=4410)
@@ -117,8 +124,7 @@ def extract_main_singer_segments(wav_path, rttm_path):
     return most_common_label, concatenated_segments, sr
 
 
-if __name__ == '__main__':
-
+if __name__ == "__main__":
 
     # Load RTTM file
     # rttm_file = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/output/preprocess/sza_diairized/2_SZA_Doves_In_The_Wind_(feat._Kendrick_Lamar)_(Filtered_Acapella)_(Vocals)_audio.rttm'
@@ -139,11 +145,11 @@ if __name__ == '__main__':
     # output_path = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/preprocess/original_file.wav'
     # sf.write(output_path, audio_data, sr)
 
-
-
     # audio = AudioSegment.from_wav(wav_file)
     #
-    most_common_label, concatenated_segments, sr = extract_main_singer_segments(wav_file, rttm_file)
+    most_common_label, concatenated_segments, sr = extract_main_singer_segments(
+        wav_file, rttm_file
+    )
     # main_segments.export(f"2_SZA - Doves In The Wind.wav", format="wav")
     # Iterate through segments and cut out the segments
     # for i, (start_time, end_time) in enumerate(segments):

@@ -51,20 +51,20 @@
    - Direct text input support for voice synthesis
 
 ### **Current Strengths:**
-✅ **Multi-platform support** (M1 Mac + Google Colab)  
-✅ **Advanced diffusion models** with fast sampling  
-✅ **Comprehensive preprocessing** with speaker diarization  
-✅ **Real-time inference** capabilities  
-✅ **Multiple speech encoders** for different use cases  
+✅ **Multi-platform support** (M1 Mac + Google Colab)
+✅ **Advanced diffusion models** with fast sampling
+✅ **Comprehensive preprocessing** with speaker diarization
+✅ **Real-time inference** capabilities
+✅ **Multiple speech encoders** for different use cases
 ✅ **Existing trained models** (SZA, Ted Cruz, etc.)
 
 ### **Current Issues:**
-❌ **Scattered project structure** - No clear organization  
-❌ **Hard-coded paths** throughout codebase  
-❌ **Missing documentation** - No clear setup instructions  
-❌ **No containerization** - Difficult deployment  
-❌ **Image-to-video limitation** - Only mouth movement  
-❌ **No dependency management** - Single massive requirements.txt  
+❌ **Scattered project structure** - No clear organization
+❌ **Hard-coded paths** throughout codebase
+❌ **Missing documentation** - No clear setup instructions
+❌ **No containerization** - Difficult deployment
+❌ **Image-to-video limitation** - Only mouth movement
+❌ **No dependency management** - Single massive requirements.txt
 
 ---
   The encoders directory contains legitimate audio feature extraction models:
@@ -102,7 +102,7 @@
 ```
 EZ_RVC/
 ├── app/                  # Main application code ✅ IMPLEMENTED
-├── data/                 # Training data, models, results 
+├── data/                 # Training data, models, results
 ├── config/              # External configuration files
 ├── scripts/             # Automation scripts
 ├── tests/               # Test suite
@@ -129,7 +129,7 @@ EZ_RVC/
 │   │   ├── encoders/              # Voice encoder models ✅
 │   │   │   ├── HubertSoft.py      # HuBERT speech encoder
 │   │   │   ├── ContentVec*.py     # ContentVec variants
-│   │   │   ├── WhisperPPG.py      # Whisper PPG encoder  
+│   │   │   ├── WhisperPPG.py      # Whisper PPG encoder
 │   │   │   ├── WavLMBasePlus.py   # WavLM encoder
 │   │   │   ├── hubert/            # HuBERT implementation
 │   │   │   ├── dphubert/          # Differentially private HuBERT
@@ -187,7 +187,7 @@ EZ_RVC/
 Real-time voice conversion using **So-VITS-SVC** with **HuBERT content encoding** and **Gaussian diffusion models** for high-quality singing voice synthesis and speech conversion.
 
 ## 📋 Table of Contents
-- [Problem Description](#problem-description)  
+- [Problem Description](#problem-description)
 - [System Architecture](#system-architecture)
 - [Quick Start](#quick-start-docker--recommended)
 - [Voice Conversion Pipeline](#voice-conversion-pipeline)
@@ -200,7 +200,7 @@ Real-time voice conversion using **So-VITS-SVC** with **HuBERT content encoding*
 Traditional voice conversion systems struggle with **naturalness**, **identity preservation**, and **real-time performance**. EZ_RVC solves this by:
 
 - **Content-independent conversion** using HuBERT speech representations
-- **High-quality synthesis** with Gaussian diffusion models  
+- **High-quality synthesis** with Gaussian diffusion models
 - **Real-time processing** with optimized inference pipeline
 - **Multi-speaker support** with speaker mixing capabilities
 
@@ -238,7 +238,7 @@ open http://localhost:8501
 # 1. Audio preprocessing and slicing (modify paths in script)
 python app/preprocess/preprocess.py
 
-# 2. Generate training/validation file lists  
+# 2. Generate training/validation file lists
 python app/preprocess/preprocess_flist_config.py \
     --train_list "./dataset/filelists/train_colab_speaker.txt" \
     --val_list "./dataset/filelists/val_colab_speaker.txt" \
@@ -251,7 +251,7 @@ python app/preprocess/preprocess_hubert_f0.py \
     --use_diff
 ```
 
-### Training Pipeline  
+### Training Pipeline
 ```bash
 # Train the conversion model using JSON config
 python app/training/train.py \
@@ -280,7 +280,7 @@ python app/inference/inference_main.py \
 
 ### Voice Conversion & AI
 - [**So-VITS-SVC**](https://github.com/svc-develop-team/so-vits-svc) - Soft voice conversion architecture
-- [**HuBERT**](https://huggingface.co/facebook/hubert-large-ls960-ft) - Content encoding for speaker independence  
+- [**HuBERT**](https://huggingface.co/facebook/hubert-large-ls960-ft) - Content encoding for speaker independence
 - [**Gaussian Diffusion**](https://arxiv.org/abs/2006.11239) - High-quality audio generation
 - [**PyTorch**](https://pytorch.org/) - Deep learning framework
 
@@ -290,7 +290,7 @@ python app/inference/inference_main.py \
 - [**CREPE**](https://github.com/marl/crepe) - Pitch estimation
 - [**soundfile**](https://python-soundfile.readthedocs.io/) - Audio I/O
 
-### Deployment & Infrastructure  
+### Deployment & Infrastructure
 - [**Docker**](https://www.docker.com/) - Containerization
 - [**Streamlit**](https://streamlit.io/) - Web interface
 - [**FastAPI**](https://fastapi.tiangolo.com/) - REST API
@@ -321,7 +321,7 @@ FROM base AS development
 COPY requirements/development.txt .
 RUN pip install --no-cache-dir -r development.txt
 
-# Production stage  
+# Production stage
 FROM base AS production
 COPY app/ /app/
 COPY config/ /config/
@@ -336,7 +336,7 @@ version: '3.8'
 
 services:
   voice-conversion:
-    build: 
+    build:
       context: .
       target: production
     ports:
@@ -348,15 +348,15 @@ services:
     environment:
       - CUDA_VISIBLE_DEVICES=0
       - MODEL_CACHE_DIR=/app/models
-    
+
   preprocessing:
     build:
       context: .
-      target: development  
+      target: development
     volumes:
       - ./data:/app/data
     command: ["python", "cli/preprocess.py"]
-    
+
   training:
     build:
       context: .
@@ -384,7 +384,7 @@ services:
 
 ---
 
-## 🎬 Image-to-Video Integration 
+## 🎬 Image-to-Video Integration
 
 ### **Current Issue Analysis:**
 - **Problem**: Only mouth movement sync, no facial expression/head movement
@@ -397,7 +397,7 @@ services:
    ```python
    # Enhanced Wav2Lip with full facial animation
    from app.integrations.video_sync import EnhancedWav2Lip
-   
+
    lip_sync_engine = EnhancedWav2Lip(
        model_path="models/wav2lip_enhanced.pth",
        face_detection_model="RetinaFace",
@@ -407,7 +407,7 @@ services:
 
 2. **Real-Time Face Reenactment** (Research Implementation)
    - **First Order Motion Model** for head movement
-   - **FaceSwapper** for identity preservation  
+   - **FaceSwapper** for identity preservation
    - **DualGAN** for expression transfer
 
 3. **Commercial API Integration** (Fallback)
@@ -423,22 +423,22 @@ class EnhancedVideoSync:
         self.face_detector = self.load_face_detector()
         self.landmark_detector = self.load_landmark_detector()
         self.motion_model = self.load_motion_model()
-        
+
     def sync_audio_to_video(self, audio_path, image_path, output_path):
         # 1. Extract audio features (mel-spectrogram, F0, energy)
         audio_features = self.extract_audio_features(audio_path)
-        
+
         # 2. Detect face and landmarks in source image
         face_data = self.detect_face_and_landmarks(image_path)
-        
+
         # 3. Generate facial motion sequence from audio
         motion_sequence = self.audio_to_motion(audio_features)
-        
+
         # 4. Apply motion to face with natural head movement
         animated_frames = self.apply_motion_to_face(
             face_data, motion_sequence, include_head_movement=True
         )
-        
+
         # 5. Render final video with synchronized audio
         self.render_video(animated_frames, audio_path, output_path)
 ```
@@ -454,13 +454,13 @@ Your Medium article provides excellent theoretical foundation. Here's how to int
 1. **README Introduction Section:**
    ```markdown
    ## 🧠 The Science Behind Voice Conversion
-   
-   This implementation brings to life the concepts explored in 
+
+   This implementation brings to life the concepts explored in
    ["Decoding the Sound of Virality: A Deep Dive into Adversarial AI for Voice Conversion"](https://medium.com/@ja.harr91/decoding-the-sound-of-virality-a-deep-dive-into-adversarial-ai-for-voice-conversion-tasks-on-m1-d60d32cfb2d4).
-   
+
    The 8 key aspects of voice learned by our AI system:
    1. **Content (c)** - HuBERT soft embeddings of speech content
-   2. **Fundamental Frequency (f0)** - Pitch patterns and voiced/unvoiced segments  
+   2. **Fundamental Frequency (f0)** - Pitch patterns and voiced/unvoiced segments
    3. **Spectrogram (spec)** - Time-frequency representation
    4. **Raw Audio (y)** - Original waveform data
    5. **Speaker Identity (spk)** - Target voice characteristics
@@ -472,13 +472,13 @@ Your Medium article provides excellent theoretical foundation. Here's how to int
 2. **Technical Documentation References:**
    ```markdown
    ## 🔬 Deep Dive: Adversarial Training Process
-   
+
    Our implementation follows the GAN-based approach detailed in the Medium article:
-   
+
    **Generator Network**: Learns to transform source voice characteristics
    **Discriminator Network**: Distinguishes real vs. generated audio
    **Training Convergence**: Achieved when generated samples are indistinguishable
-   
+
    See `app/training/trainer.py` for the complete adversarial training loop.
    ```
 
@@ -489,15 +489,15 @@ Your Medium article provides excellent theoretical foundation. Here's how to int
        """
        Implements the So-VITS-SVC architecture described in:
        "Decoding the Sound of Virality" - https://medium.com/@ja.harr91/...
-       
+
        This converter learns the 8 key voice aspects:
        - Content representation (HuBERT embeddings)
-       - F0 pitch patterns 
+       - F0 pitch patterns
        - Spectral characteristics
        - Temporal dynamics
        - Speaker identity features
        - Volume and energy patterns
-       - Voiced/unvoiced classifications  
+       - Voiced/unvoiced classifications
        - Raw audio relationships
        """
    ```
@@ -508,7 +508,7 @@ Your Medium article provides excellent theoretical foundation. Here's how to int
 
 ## ✅ **ALREADY COMPLETED**
 - [x] 📊 **Project structure analysis** - identified core components
-- [x] 🏗️ **Created /app base structure** - modern folder organization  
+- [x] 🏗️ **Created /app base structure** - modern folder organization
 - [x] 🗺️ **Component mapping** - vencoder → encoders, vdecoder → vocoders
 - [x] 📋 **Planning document** - comprehensive roadmap created
 - [x] 🔍 **Environment detection analysis** - identified 17 files needing centralization
@@ -517,7 +517,7 @@ Your Medium article provides excellent theoretical foundation. Here's how to int
 
 #### 🔧 **Current Work (Preprocessing Pipeline):**
 - [ ] 📦 **Modularize preprocessing** - clean imports and routing
-- [ ] 🐳 **Dockerize preprocessing** - containerized local pipeline  
+- [ ] 🐳 **Dockerize preprocessing** - containerized local pipeline
 - [ ] 🤝 **Hybrid data detection** - auto-detect raw vs processed
 - [ ] 🌐 **HuggingFace Hub integration** - replace Google Drive
 
@@ -525,7 +525,7 @@ Your Medium article provides excellent theoretical foundation. Here's how to int
 ```
 Local M2 Mac + Docker + Streamlit base app
 ├── 🔄 Preprocessing (local or Colab)
-├── 🚀 Training (Colab with HF Hub)  
+├── 🚀 Training (Colab with HF Hub)
 ├── 🎵 Inference (local M2 optimized)
 └── 🎚️ Post-processing (Audacity integration)
 ```
@@ -667,7 +667,7 @@ data/processed/<exp_name>/
 
 **🎯 Benefits:**
 - ✅ **Fast I/O** (no Drive mounting)
-- ✅ **Auto-cleanup** (ephemeral storage) 
+- ✅ **Auto-cleanup** (ephemeral storage)
 - ✅ **Reproducible** (HF Hub versioning)
 - ✅ **Hybrid preprocessing** (local or Colab)
 
@@ -677,10 +677,10 @@ data/processed/<exp_name>/
 
 ### **🔧 Phase 2: Advanced Features**
 - [ ] 📝 **Comprehensive README** (ABSA-Drift style)
-- [ ] 🎬 **Video lip-sync integration** 
+- [ ] 🎬 **Video lip-sync integration**
 - [ ] 🌐 **FastAPI + Streamlit web interface**
 
-### **🚀 Phase 3: Production Ready**  
+### **🚀 Phase 3: Production Ready**
 - [ ] 📖 **Medium article integration**
 - [ ] 📊 **Model registry + experiment tracking**
 - [ ] ☁️ **Cloud deployment guides**
@@ -848,7 +848,7 @@ data/processed/<exp_name>/
   - `train_cluster.py` - Cluster training script
 
 #### **Experiment Tracking (Not mentioned in article):**
-- `/wandb/` - **ENTIRE DIRECTORY** 
+- `/wandb/` - **ENTIRE DIRECTORY**
   - All Weights & Biases experiment logs
   - `latest-run` and all run directories
 
@@ -859,7 +859,7 @@ data/processed/<exp_name>/
 
 #### **Utility/Test Files (Not mentioned):**
 - `data_utils.py` - Data loading utilities
-- `utils.py` - General utilities  
+- `utils.py` - General utilities
 - `spkmix.py` - Speaker mixing functionality
 - `m1_test.py` - M1 Mac testing script
 - `test.py` - General test file
@@ -876,7 +876,7 @@ data/processed/<exp_name>/
 #### **Google Colab Integration (Mentioned but may be duplicates):**
 - `/colab_notebooks/` - **REVIEW BEFORE MOVING**
   - `EZ_Diairization.ipynb` - Mentioned in article
-  - `EZ_RVC_FINAL.ipynb` - Main Colab notebook  
+  - `EZ_RVC_FINAL.ipynb` - Main Colab notebook
   - `sovits4_for_colab.ipynb` - Colab-specific implementation
 
 #### **Data Directories (Important but not code):**
@@ -938,7 +938,7 @@ python train.py -c {config_path} -m 44k -md "/path/to/dataset/44k/speaker"
 
 #### **3. Configuration Files:**
 - **JSON Configs**: `app/configs/44k/config_colab_*.json` (not YAML)
-- **Diffusion**: `app/configs/44k/diffusion.yaml` 
+- **Diffusion**: `app/configs/44k/diffusion.yaml`
 - **Available speakers**: adams, cruz, sza, ow (from config file names)
 
 #### **4. Hardcoded Paths Found:**
@@ -953,16 +953,16 @@ python train.py -c {config_path} -m 44k -md "/path/to/dataset/44k/speaker"
 EZ_RVC/
 ├── app/
 │   ├── encoders/          # Voice encoders (moved from /vencoder/)
-│   ├── vocoders/          # Audio synthesis (moved from /vdecoder/) 
+│   ├── vocoders/          # Audio synthesis (moved from /vdecoder/)
 │   ├── preprocessing/     # Audio preprocessing (moved from /preprocess/)
 │   ├── training/          # Model training logic
-│   ├── inference/         # Voice conversion engine  
+│   ├── inference/         # Voice conversion engine
 │   ├── models/           # Model architectures
 │   ├── cli/              # Command-line interfaces
 │   ├── web/              # Web interfaces
 │   └── utils/            # Utilities and helpers
 ├── notebooks/            # Jupyter notebooks (outside /app/)
-│   ├── colab/           # Google Colab notebooks  
+│   ├── colab/           # Google Colab notebooks
 │   └── research/        # Local experimentation
 ├── data/                # Training data, models, results
 ├── config/              # Configuration files
@@ -975,12 +975,12 @@ EZ_RVC/
 
 #### **Phase 1: Complete App Migration (High Priority)**
 - [ ] **Finish moving remaining core components** to proper /app/ locations
-- [ ] **Implement proper CLI interfaces** replacing hardcoded scripts  
+- [ ] **Implement proper CLI interfaces** replacing hardcoded scripts
 - [ ] **Create config management system** with YAML-based configuration
 - [ ] **Fix all import paths** after restructuring
 - [ ] **Update file list generation** to work with new structure
 
-#### **Phase 2: Docker Infrastructure (Medium Priority)**  
+#### **Phase 2: Docker Infrastructure (Medium Priority)**
 - [ ] **Multi-service containerization** (app, jupyter, data)
 - [ ] **Separate notebook environment** from production app
 - [ ] **Environment-specific containers** (local, colab, production)
@@ -994,7 +994,7 @@ EZ_RVC/
 
 #### **Phase 4: Enhanced Features (Lower Priority)**
 - [ ] **Improved video sync integration** addressing mouth-only limitation
-- [ ] **Text-to-speech pipeline refinement** 
+- [ ] **Text-to-speech pipeline refinement**
 - [ ] **Model registry and versioning system**
 - [ ] **Comprehensive test suite**
 
@@ -1009,7 +1009,7 @@ EZ_RVC/
 
 #### **Environment Detection Problems:**
 - **Colab detection scattered throughout codebase** - Multiple files contain `is_running_in_colab()` checks
-- **No centralized environment management** - Each file handles environment detection independently  
+- **No centralized environment management** - Each file handles environment detection independently
 - **Mixed local/cloud path handling** - Inconsistent path resolution across different environments
 - **Hard-coded path switching** - Manual path changes required when moving between local/colab/docker
 
@@ -1017,7 +1017,7 @@ EZ_RVC/
 
 ### **🎯 USER'S MODERNIZATION PLAN OF ATTACK:**
 
-#### **Phase 1: Local M1 Mac Foundation** 
+#### **Phase 1: Local M1 Mac Foundation**
 **Goal:** Get base local version running on M2 Mac with truncated dataset in new /app configuration
 - [ ] **Docker + Docker Compose setup** for consistent local environment
 - [ ] **Basic Streamlit interface** for easy local testing and development
@@ -1053,14 +1053,14 @@ EZ_RVC/
 
 ### **Technical Goals:**
 - ✅ **Clean, maintainable codebase** with modern Python structure
-- ✅ **One-command setup** via Docker Compose  
+- ✅ **One-command setup** via Docker Compose
 - ✅ **Comprehensive documentation** linking theory to implementation
 - ✅ **Enhanced video sync** with natural facial animation
 - ✅ **Production-ready deployment** with monitoring and logging
 
 ### **User Experience Goals:**
 - ✅ **Simple web interface** for non-technical users
-- ✅ **Real-time processing** for live applications  
+- ✅ **Real-time processing** for live applications
 - ✅ **Batch processing** capabilities for content creation
 - ✅ **High-quality output** suitable for professional use
 - ✅ **Clear connection** between code implementation and research article

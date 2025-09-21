@@ -13,10 +13,11 @@ from tqdm import tqdm
 # config_template = json.load(open("../configs_template/config_template.json"))
 # config_template = json.load(open("../preprocess/configs_template/config_template.json"))
 # /Users/jordanharris/Code/PycharmProjects/EZ_RVC/preprocess/configs_template/config_template.json
-pattern = re.compile(r'^[\.a-zA-Z0-9_\/]+$')
+pattern = re.compile(r"^[\.a-zA-Z0-9_\/]+$")
+
 
 def get_wav_duration(file_path):
-    with wave.open(file_path, 'rb') as wav_file:
+    with wave.open(file_path, "rb") as wav_file:
         # 获取音频帧数
         n_frames = wav_file.getnframes()
         # 获取采样率
@@ -25,18 +26,50 @@ def get_wav_duration(file_path):
         duration = n_frames / float(framerate)
     return duration
 
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--train_list", type=str, default="./dataset/filelists/train_colab_adams.txt", help="path to train list")
-    parser.add_argument("--val_list", type=str, default="./dataset/filelists/val_colab_adams.txt", help="path to val list")
+    parser.add_argument(
+        "--train_list",
+        type=str,
+        default="./dataset/filelists/train_colab_adams.txt",
+        help="path to train list",
+    )
+    parser.add_argument(
+        "--val_list",
+        type=str,
+        default="./dataset/filelists/val_colab_adams.txt",
+        help="path to val list",
+    )
     # parser.add_argument("--source_dir", type=str, default="./dataset/44k", help="path to source dir")
-    parser.add_argument("--source_dir", type=str, default="dataset/", help="path to source dir")
-    parser.add_argument("--speech_encoder", type=str, default="hubertsoft", help="choice a speech encoder|'vec768l12','vec256l9','hubertsoft','whisper-ppg','cnhubertlarge','dphubert','whisper-ppg-large','wavlmbase+'")
-    parser.add_argument("--vol_aug", default=False, action="store_true", help="Whether to use volume embedding and volume augmentation")
-    parser.add_argument("--tiny", default=False, action="store_true", help="Whether to train sovits tiny")
+    parser.add_argument(
+        "--source_dir", type=str, default="dataset/", help="path to source dir"
+    )
+    parser.add_argument(
+        "--speech_encoder",
+        type=str,
+        default="hubertsoft",
+        help="choice a speech encoder|'vec768l12','vec256l9','hubertsoft','whisper-ppg','cnhubertlarge','dphubert','whisper-ppg-large','wavlmbase+'",
+    )
+    parser.add_argument(
+        "--vol_aug",
+        default=False,
+        action="store_true",
+        help="Whether to use volume embedding and volume augmentation",
+    )
+    parser.add_argument(
+        "--tiny",
+        default=False,
+        action="store_true",
+        help="Whether to train sovits tiny",
+    )
     args = parser.parse_args()
 
-    config_template = json.load(open("preprocess/configs_template/config_tiny_template.json")) if args.tiny else json.load(open("preprocess/configs_template/config_template.json"))
+    config_template = (
+        json.load(open("preprocess/configs_template/config_tiny_template.json"))
+        if args.tiny
+        else json.load(open("preprocess/configs_template/config_template.json"))
+    )
     train = []
     val = []
     idx = 0
@@ -47,12 +80,16 @@ if __name__ == "__main__":
     #     spk_id += 1
     #     wavs = ["/".join([args.source_dir, speaker, i]) for i in os.listdir(os.path.join(args.source_dir, speaker))]
     # Assuming the speaker's data is in the root of args.source_dir
-    spk = 'eric_adams'
+    spk = "eric_adams"
     spk_dict = {spk: 0}  # Assign the speaker ID directly
     # wav_path = "/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset_raw/sza_resample_splits"
     # wav_path = "/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset/44k/sza"
     wav_path = "dataset/44k/" + spk
-    wavs = [os.path.join(args.source_dir + '44k/' + spk, i) for i in os.listdir(wav_path) if i.endswith('.wav')]
+    wavs = [
+        os.path.join(args.source_dir + "44k/" + spk, i)
+        for i in os.listdir(wav_path)
+        if i.endswith(".wav")
+    ]
 
     # wavs = ''
     new_wavs = []
@@ -60,7 +97,9 @@ if __name__ == "__main__":
         if not file.endswith("wav"):
             continue
         if not pattern.match(file):
-            logger.warning(f"文件名{file}中包含非字母数字下划线，可能会导致错误。（也可能不会）")
+            logger.warning(
+                f"文件名{file}中包含非字母数字下划线，可能会导致错误。（也可能不会）"
+            )
         if get_wav_duration(file) < 0.3:
             logger.info("Skip too short audio:" + file)
             continue
@@ -72,18 +111,18 @@ if __name__ == "__main__":
 
     shuffle(train)
     shuffle(val)
-            
+
     logger.info("Writing" + args.train_list)
     with open(args.train_list, "w") as f:
         for fname in tqdm(train):
             wavpath = fname
-            f.write('/content/drive/MyDrive/' + wavpath + "\n")
-        
+            f.write("/content/drive/MyDrive/" + wavpath + "\n")
+
     logger.info("Writing" + args.val_list)
     with open(args.val_list, "w") as f:
         for fname in tqdm(val):
             wavpath = fname
-            f.write('/content/drive/MyDrive/' + wavpath + "\n")
+            f.write("/content/drive/MyDrive/" + wavpath + "\n")
     #
     #
     # d_config_template = du.load_config("preprocess/configs_template/diffusion_template.yaml")

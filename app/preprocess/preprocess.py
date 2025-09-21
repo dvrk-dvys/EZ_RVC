@@ -1,23 +1,22 @@
 import os
 import re
+from collections import Counter
 
+import librosa  # Optional. Use any library you like to read audio files.
+import numpy as np
+import soundfile  # Optional. Use any library you like to write audio files.
+import soundfile as sf
 import torch
+
 # import faiss
 from pyannote.audio import Pipeline
 from scipy.io.wavfile import read
 
-from collections import Counter
-import soundfile as sf
-import numpy as np
-
-import librosa  # Optional. Use any library you like to read audio files.
-import soundfile  # Optional. Use any library you like to write audio files.
 from app.utils.slicer import Slicer
-
 
 # contentvec
 # !wget -P pretrain/ https://huggingface.co/lj1995/VoiceConversionWebUI/resolve/main/hubert_base.pt -O checkpoint_best_legacy_500.pt
-hubert_base = './EZ_RVC/model_dir/checkpoint_best_legacy_500.pt'
+hubert_base = "./EZ_RVC/model_dir/checkpoint_best_legacy_500.pt"
 # Alternatively, you can manually download and place it in the hubert directory
 
 
@@ -34,7 +33,15 @@ else:
 
 class Preprocess:
 
-    def __init__(self, target_sample_rate, min_duration=1.0, top_db=30, max_length=10.0, frame_seconds=0.5, hop_seconds=0.1):
+    def __init__(
+        self,
+        target_sample_rate,
+        min_duration=1.0,
+        top_db=30,
+        max_length=10.0,
+        frame_seconds=0.5,
+        hop_seconds=0.1,
+    ):
         self.target_sample_rate = target_sample_rate
         self.min_duration = min_duration
         self.top_db = top_db
@@ -48,14 +55,16 @@ def slice(wav_path, file_name, output_path):
     if not os.path.exists(output_path):
         os.makedirs(output_path)
 
-    audio, sr = librosa.load(wav_path, sr=None, mono=False)  # Load an audio file with librosa.
+    audio, sr = librosa.load(
+        wav_path, sr=None, mono=False
+    )  # Load an audio file with librosa.
     slicer = Slicer(
         sr=sr,
         threshold=-40,
         min_length=5000,
         min_interval=300,
         hop_size=10,
-        max_sil_kept=500
+        max_sil_kept=500,
     )
     chunks = slicer.slice(audio)
     flipped_chunks = []
@@ -63,10 +72,13 @@ def slice(wav_path, file_name, output_path):
         if len(chunk.shape) > 1:
             chunk = chunk.T  # Swap axes if the audio is stereo.
         # soundfile.write(f'/preprocess/output/sza_slices_22050/{file_name}_{i}.wav', chunk, sr)  # Save sliced audio files with soundfile.
-        soundfile.write(f'{output_path}{file_name}_{i}.wav', chunk, sr)  # Save sliced audio files with soundfile.
+        soundfile.write(
+            f"{output_path}{file_name}_{i}.wav", chunk, sr
+        )  # Save sliced audio files with soundfile.
 
         flipped_chunks.append(chunk)
     return flipped_chunks
+
 
 def resample(file_path, target_sample_rate, min_duration=1.0, top_db=30):
     """
@@ -91,7 +103,7 @@ def resample(file_path, target_sample_rate, min_duration=1.0, top_db=30):
     # Check duration
     duration = librosa.get_duration(y=y, sr=sr)
     if duration < min_duration:
-        print(f'Skipping {file_path} because it is too short.')
+        print(f"Skipping {file_path} because it is too short.")
         return None, sr
 
     # Adjust volume
@@ -103,7 +115,7 @@ def resample(file_path, target_sample_rate, min_duration=1.0, top_db=30):
     # Check duration after trimming
     duration = librosa.get_duration(y=y, sr=sr)
     if duration < min_duration:
-        print(f'Skipping {file_path} because it is too short after trimming.')
+        print(f"Skipping {file_path} because it is too short after trimming.")
         return None, sr
     # Reshape if mono
     if len(y.shape) == 1:
@@ -137,7 +149,12 @@ def split(y, sr, max_length=10.0, top_db=30, frame_seconds=0.5, hop_seconds=0.1)
     # the length of the frames used to compute the root-mean-square (RMS) value,
     # which is used to determine whether a frame is silent or not.
     # The function returns an array of start and end indices for non-silent intervals.
-    intervals = librosa.effects.split(y, top_db=top_db, frame_length=int(sr * frame_seconds), hop_length=int(sr * hop_seconds))
+    intervals = librosa.effects.split(
+        y,
+        top_db=top_db,
+        frame_length=int(sr * frame_seconds),
+        hop_length=int(sr * hop_seconds),
+    )
 
     segments = []
     for start, end in intervals:
@@ -148,7 +165,16 @@ def split(y, sr, max_length=10.0, top_db=30, frame_seconds=0.5, hop_seconds=0.1)
 
     return segments
 
-def save_split(input_dir, output_dir, sr, max_length=10.0, top_db=30, frame_seconds=0.5, hop_seconds=0.1):
+
+def save_split(
+    input_dir,
+    output_dir,
+    sr,
+    max_length=10.0,
+    top_db=30,
+    frame_seconds=0.5,
+    hop_seconds=0.1,
+):
     """
     Splitting can also be useful for removing silences or non-speech segments from the audio,
      which could improve the performance of a voice conversion model.
@@ -157,9 +183,19 @@ def save_split(input_dir, output_dir, sr, max_length=10.0, top_db=30, frame_seco
     """
     for root, dirs, files in os.walk(input_dir):
         for file in files:
-            if file.endswith('.wav'):
+            if file.endswith(".wav"):
                 file_path = os.path.join(root, file)
-                split(file_path, output_dir, sr, max_length, top_db, frame_seconds, hop_seconds)
+                split(
+                    file_path,
+                    output_dir,
+                    sr,
+                    max_length,
+                    top_db,
+                    frame_seconds,
+                    hop_seconds,
+                )
+
+
 #
 
 # Speaker diarization is the process of determining "who spoke when"
@@ -168,7 +204,10 @@ def save_split(input_dir, output_dir, sr, max_length=10.0, top_db=30, frame_seco
 # This can be particularly useful in tasks like transcription services,
 # meeting summarization, and voice conversion in a multi-speaker environment.
 
-def speaker_diarization(y_path, sr, min_speakers=1, max_speakers=1, huggingface_token=None):
+
+def speaker_diarization(
+    y_path, sr, min_speakers=1, max_speakers=1, huggingface_token=None
+):
     """
     Perform speaker diarization using a pre-trained model from Hugging Face.
 
@@ -191,17 +230,22 @@ def speaker_diarization(y_path, sr, min_speakers=1, max_speakers=1, huggingface_
         The result of the speaker diarization. This is an object that contains the start and end times of each speaker segment, along with the identified speaker labels.
     """
     # Load the pre-trained model from Hugging Face
-    pipeline = Pipeline.from_pretrained("pyannote/speaker-diarization@2.1", use_auth_token=huggingface_token)
+    pipeline = Pipeline.from_pretrained(
+        "pyannote/speaker-diarization@2.1", use_auth_token=huggingface_token
+    )
 
     # device = torch.device('metal') if torch.cuda.is_available() else torch.device('cpu')
     pipeline = pipeline.to(device)  # switch to gpu
 
     # apply the pipeline to an audio file Perform speaker diarization
-    diarization = pipeline({'audio': y_path}, min_speakers=min_speakers, max_speakers=max_speakers)
+    diarization = pipeline(
+        {"audio": y_path}, min_speakers=min_speakers, max_speakers=max_speakers
+    )
     for turn, _, speaker in diarization.itertracks(yield_label=True):
         print(f"start={turn.start:.1f}s stop={turn.end:.1f}s speaker_{speaker}")
 
     return diarization
+
 
 # 3. **Feature Extraction**: The next step is to extract features from the audio segments. The type of features extracted can vary depending on the specific model being used. Common types of features used in voice conversion model_dir include:
 #
@@ -216,8 +260,8 @@ def speaker_diarization(y_path, sr, min_speakers=1, max_speakers=1, huggingface_
 #    - **Phoneme or text information**: Some model_dir also use phoneme or text information as additional features.
 #
 def load_wav_to_torch(full_path):
-  sampling_rate, data = read(full_path)
-  return torch.FloatTensor(data.astype(np.float32)), sampling_rate
+    sampling_rate, data = read(full_path)
+    return torch.FloatTensor(data.astype(np.float32)), sampling_rate
 
 
 def lead_diairized_splits(rttm_path):
@@ -227,7 +271,7 @@ def lead_diairized_splits(rttm_path):
     # Read the RTTM file and analyze the speaker labels
     speaker_labels = []
 
-    with open(rttm_path, 'r') as file:
+    with open(rttm_path, "r") as file:
         for line in file:
             # Typical RTTM format: SPEAKER filename 1 start_duration duration <NA> <NA> speaker_id <NA> <NA>
             parts = line.strip().split()
@@ -245,7 +289,7 @@ def extract_main_singer_segments(wav_path, rttm_path):
     annotations = []
     speaker_labels = []
 
-    with open(rttm_path, 'r', encoding='latin-1') as file:
+    with open(rttm_path, "r", encoding="latin-1") as file:
         for line in file:
             parts = line.strip().split()
             if len(parts) >= 8:
@@ -253,7 +297,9 @@ def extract_main_singer_segments(wav_path, rttm_path):
                     start = float(parts[3])
                     duration = float(parts[4])
                     speaker_id = parts[7]
-                    annotations.append({'start': start, 'duration': duration, 'speaker': speaker_id})
+                    annotations.append(
+                        {"start": start, "duration": duration, "speaker": speaker_id}
+                    )
                     speaker_labels.append(speaker_id)
                 except:
                     print()
@@ -268,9 +314,9 @@ def extract_main_singer_segments(wav_path, rttm_path):
     audio_data, sr = sf.read(wav_path)
     segments = []
     for ann in annotations:
-        if ann['speaker'] == most_common_label:
-            start_sample = int(ann['start'] * sr)
-            end_sample = int((ann['start'] + ann['duration']) * sr)
+        if ann["speaker"] == most_common_label:
+            start_sample = int(ann["start"] * sr)
+            end_sample = int((ann["start"] + ann["duration"]) * sr)
             segment = audio_data[start_sample:end_sample]
             segments.append(segment)
     try:
@@ -278,22 +324,23 @@ def extract_main_singer_segments(wav_path, rttm_path):
     except:
         print()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
 
     print("Current Working Directory: ", os.getcwd())
 
     # input_dir = './input/SZA_CTRL/'  # Replace with your actual input directory
     # input_dir = './dataset/44k/scripts/'
-    input_dir = './dataset_raw/eric_adams/'
+    input_dir = "./dataset_raw/eric_adams/"
 
     # input_dir = './dataset_raw/SZA_SOS/' # Replace with your actual input directory
-    output_dir = './preprocess/output/'
+    output_dir = "./preprocess/output/"
     # output_dir ='./dataset_raw/Scripts/'
 
     # speaker diairization test
     # file = '/Users/jordanharris/Code/PycharmProjects/EZ_RVC/input/SZA_CTRL/3_SZA - Love Galore (feat. Travis Scott) (Filtered Acapella)_(Vocals).wav'
 
-    target_sample_rate = 44100 #44100 is industry standard for cd's  # Replace with your desired sample rate
+    target_sample_rate = 44100  # 44100 is industry standard for cd's  # Replace with your desired sample rate
     # A common sample rate for music is 44.1 kHz.
     #  16 kHz is commonly used because it captures most of the important information in human speech while reducing the computational resources required compared to higher sampling rates.
     min_duration = 1.0  # Minimum duration in seconds
@@ -302,7 +349,7 @@ if __name__ == '__main__':
     # 0.
     # https://github.com/openvpi/audio-slicer
     # Slice!!!!
-    slice_dir = 'eric_adams_slices'
+    slice_dir = "eric_adams_slices"
 
     if not os.path.exists(input_dir):
         print(f"Directory not found: {input_dir}")
@@ -311,30 +358,36 @@ if __name__ == '__main__':
 
         for root, dirs, files in os.walk(input_dir):
             for file in files:
-                if file.endswith('.wav'):
+                if file.endswith(".wav"):
 
-                    _file_name = file.split('/')[-1]
-                    _file_name = _file_name.split('.wav')[0]
-                    file_name = re.sub('[^\w\s]', '', _file_name)
-                    file_name = re.sub(' ', '_', file_name)
+                    _file_name = file.split("/")[-1]
+                    _file_name = _file_name.split(".wav")[0]
+                    file_name = re.sub("[^\w\s]", "", _file_name)
+                    file_name = re.sub(" ", "_", file_name)
                     print(file_name)
 
-                    slices = slice(root + file, file_name, f'preprocess/output/{slice_dir}/')
-    #// Slice!!
+                    slices = slice(
+                        root + file, file_name, f"preprocess/output/{slice_dir}/"
+                    )
+    # // Slice!!
 
     # # Resample!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     #
-    input_dir = f'preprocess/output/{slice_dir}'  # Replace with your actual input directory
-    resampled = 'eric_adams'
+    input_dir = (
+        f"preprocess/output/{slice_dir}"  # Replace with your actual input directory
+    )
+    resampled = "eric_adams"
     for root, dirs, files in os.walk(input_dir):
         for file in files:
-            if file.endswith('.wav'):
+            if file.endswith(".wav"):
                 # Resample!!
-                file_name = file.split('/')[-1]
+                file_name = file.split("/")[-1]
 
                 # Resample the audio file
-                y, sr = resample(root + '/' + file, target_sample_rate)
-                output_path = os.path.join(output_dir + resampled + '_resample_44k/', file_name)
+                y, sr = resample(root + "/" + file, target_sample_rate)
+                output_path = os.path.join(
+                    output_dir + resampled + "_resample_44k/", file_name
+                )
 
                 # Ensure the output directory exists
                 os.makedirs(os.path.dirname(output_path), exist_ok=True)

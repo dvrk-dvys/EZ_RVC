@@ -1,0 +1,82 @@
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+    -   id: trailing-whitespace      # Removes extra spaces at end of lines
+        exclude: ^to_do/
+    -   id: end-of-file-fixer        # Ensures files end with a newline character
+        exclude: ^to_do/
+    -   id: check-yaml               # Validates YAML file syntax (docker-compose, configs)
+        exclude: ^to_do/
+    -   id: check-added-large-files  # Prevents accidentally committing large files (>500KB)
+        exclude: ^to_do/
+    -   id: detect-aws-credentials   # Scans for AWS access keys and secrets
+    -   id: detect-private-key       # Detects SSH private keys and certificates
+        exclude: ^to_do/
+
+
+-   repo: https://github.com/pycqa/isort
+    rev: 6.0.1
+    hooks:
+    -   id: isort                    # Automatically sorts Python imports alphabetically
+        args: [ "--profile=black" ]
+        exclude: ^to_do/
+
+-   repo: https://github.com/gitleaks/gitleaks
+    rev: v8.28.0
+    hooks:
+    -   id: gitleaks                 # Comprehensive secret detection (API keys, tokens, passwords)
+
+-   repo: https://github.com/psf/black
+    rev: 25.1.0
+    hooks:
+    -   id: black                    # Auto-formats Python code to consistent style
+        exclude: ^to_do/
+        language_version: python3.10
+
+-   repo: https://github.com/pycqa/pylint
+    rev: v3.3.8
+    hooks:
+    -   id: pylint                   # Analyzes Python code for bugs, style issues, and complexity
+        exclude: ^to_do/
+        files: ^module_6/.*\.py$     # Scope to module_6 only
+        args: ["--disable=E0401,C0103,W0621,C0301,W1309,C0415,W0603,C0209,R0801,W0611,C0114,C0115,C0116,W0613,R0903"]
+
+# Disabled Pylint Rules Explained:
+# E0401: Unable to import - Not real errors (packages exist in your environment)
+# C0103: Variable name doesn't conform to snake_case - Style preferences (X_val, bucket_name vs BUCKET_NAME)
+# W0621: Redefining name from outer scope - Common in small scripts (function params same as globals)
+# C0301: Line too long - Only 2 lines over 100 characters (black handles most formatting)
+# W1309: f-string without interpolation - Using f"text" instead of "text" (overly pedantic)
+# C0415: Import outside toplevel - Importing inside functions (sometimes needed for conditional imports)
+# W0603: Using global statement - Global variables (common in module-level caching)
+# C0209: Consider using f-string - Suggests f-strings for % formatting (conflicts with W1309!)
+# R0801: Similar lines in files - Duplicate code detection (catches commented teacher code)
+# W0611: Unused import - Unused imports (good to keep visible for cleanup later)
+# C0114: Missing module docstring - Requires docstring at top of every file (overkill for coursework)
+# C0115: Missing class docstring - Requires docstring for every class (verbose for simple classes)
+# C0116: Missing function docstring - Requires docstring for every function (too much for small functions)
+# W0613: Unused argument - Function parameters that aren't used (common in callbacks like lambda context)
+# R0903: Too few public methods - Classes with <2 methods (annoying for simple data classes)
+
+-   repo: local
+    hooks:
+    - id: enforce-author
+      name: Enforce author/committer is Jordan (block Claude)
+      entry: hooks/enforce-author.sh
+      language: script
+      stages: [pre-commit]
+
+
+
+
+
+
+# to install
+#pip install pre-commit black isort pylint pytest                                                                 ─╯
+#pre-commit install
+
+#After editing, refresh the hooks:
+#pre-commit uninstall && pre-commit install
+#pre-commit clean
+#pre-commit run --all-files

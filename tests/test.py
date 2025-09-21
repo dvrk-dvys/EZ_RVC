@@ -18,15 +18,11 @@
 # https://studio.d-id.com/
 
 
-
-
 # My steps,
 # Data retrieval
 # https://www.youtube.com/watch?v=Jq_1XiJs7ZE
 # https://youtu.be/Wc4EnXwT8II
 # https://youtu.be/8wgQsqjwYGs
-
-
 
 
 # https://4kdownload.to/en1/youtube-wav-downloader
@@ -53,16 +49,11 @@
 # youtube to wav file
 
 
-
-
 import librosa
+
 librosa.show_versions()
 
 # stable diffusion to redraw a face? if its animated?
-
-
-
-
 
 
 # Steps:
@@ -81,7 +72,7 @@ librosa.show_versions()
 # preprocess_hubert_f0.py: This script likely uses the HuBERT model, which is a self-supervised model developed by Facebook AI for speech and audio understanding tasks. It could be extracting features from the audio files, such as the fundamental frequency (F0), which is often used in voice conversion tasks.
 #
 # preprocess_resample.py: This script probably resamples the audio files to ensure they all have the same sample rate. This is a common preprocessing step in audio processing tasks.
-#The line `y, sr = librosa.load(file_path, sr=target_sample_rate)` is using the `librosa.load()` function to load an audio file and resample it to a desired sample rate.
+# The line `y, sr = librosa.load(file_path, sr=target_sample_rate)` is using the `librosa.load()` function to load an audio file and resample it to a desired sample rate.
 
 # Let's break down what this means:
 #
@@ -96,7 +87,6 @@ librosa.show_versions()
 # **Computationally**, loading and resampling an audio file can be a somewhat intensive operation, especially for long audio files. It involves reading the digital data, converting it to a time series, and potentially resampling it, which can involve interpolation or decimation of the audio signal. However, these operations are typically quite fast on modern hardware, and can be performed in real time for many applications.
 
 
-
 # preprocess_speaker_diarization.py: This script might be used for speaker diarization, which is the process of separating an audio stream into segments based on the speaker. This could be useful in voice conversion tasks if you want to train separate model_dir for each speaker or if you want to ensure that the training data for each speaker is balanced.
 #
 # preprocess_split.py: As you've already posted the code for this, it's clear that this script is used to split audio files into shorter segments. This involves loading an audio file, splitting it into segments where the sound level is below a certain threshold, and saving each segment as a separate audio file.
@@ -108,16 +98,8 @@ librosa.show_versions()
 # For more specific details about these scripts, you would need to check the actual code or the documentation provided with the code.
 
 
-
-
-
-
-
 # 2. Pitch Extraction
 
 # 3. Train Model
 
 # 4. Train Index
-
-
-

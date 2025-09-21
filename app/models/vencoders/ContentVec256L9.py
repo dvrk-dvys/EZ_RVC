@@ -1,6 +1,5 @@
 import torch
 from fairseq import checkpoint_utils
-
 from vencoder import SpeechEncoder
 
 
@@ -9,8 +8,8 @@ class ContentVec256L9(SpeechEncoder):
         super().__init__()
         print("load model(s) from {}".format(vec_path))
         models, saved_cfg, task = checkpoint_utils.load_model_ensemble_and_task(
-          [vec_path],
-          suffix="",
+            [vec_path],
+            suffix="",
         )
         self.hidden_dim = 256
         if device is None:
@@ -28,9 +27,9 @@ class ContentVec256L9(SpeechEncoder):
         feats = feats.view(1, -1)
         padding_mask = torch.BoolTensor(feats.shape).fill_(False)
         inputs = {
-          "source": feats.to(wav.device),
-          "padding_mask": padding_mask.to(wav.device),
-          "output_layer": 9,  # layer 9
+            "source": feats.to(wav.device),
+            "padding_mask": padding_mask.to(wav.device),
+            "output_layer": 9,  # layer 9
         }
         with torch.no_grad():
             logits = self.model.extract_features(**inputs)

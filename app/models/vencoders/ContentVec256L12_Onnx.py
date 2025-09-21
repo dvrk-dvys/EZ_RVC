@@ -1,6 +1,5 @@
 import onnxruntime
 import torch
-
 from vencoder import SpeechEncoder
 
 
@@ -14,10 +13,10 @@ class ContentVec256L12_Onnx(SpeechEncoder):
         else:
             self.dev = torch.device(device)
 
-        if device == 'cuda' or device == torch.device("cuda"):
-            providers = ['CUDAExecutionProvider', 'CPUExecutionProvider']
+        if device == "cuda" or device == torch.device("cuda"):
+            providers = ["CUDAExecutionProvider", "CPUExecutionProvider"]
         else:
-            providers = ['CPUExecutionProvider']
+            providers = ["CPUExecutionProvider"]
 
         self.model = onnxruntime.InferenceSession(vec_path, providers=providers)
 

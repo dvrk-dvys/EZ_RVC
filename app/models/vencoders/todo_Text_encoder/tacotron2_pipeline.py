@@ -65,9 +65,10 @@ Text-to-Speech with Tacotron2
 #      %%bash
 #      pip3 install deep_phonemizer
 
+import os
+
 import torch
 import torchaudio
-import os
 
 torch.random.manual_seed(0)
 device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -82,7 +83,6 @@ print(device)
 
 import IPython
 import matplotlib.pyplot as plt
-
 
 ######################################################################
 # Text Processing
@@ -118,12 +118,15 @@ symbols = set(symbols)
 def text_to_sequence(text):
     text = text.lower()
     return [look_up[s] for s in text if s in symbols]
-def speak_macos(text, filename="siri_test.wav"):
-    os.system(f'say {text} -o {filename} --data-format=LEI16@22050')
 
-text = """Hey Y'all! This is Ted Cruz speaking! I want to talk to you about the upcoming election cycle! 
-         I have two interesting facts to share with you. 
-         Number 1! During my tenure as a Senator of the State of Texas, my administration has put razor blades in the rio-grande river 
+
+def speak_macos(text, filename="siri_test.wav"):
+    os.system(f"say {text} -o {filename} --data-format=LEI16@22050")
+
+
+text = """Hey Y'all! This is Ted Cruz speaking! I want to talk to you about the upcoming election cycle!
+         I have two interesting facts to share with you.
+         Number 1! During my tenure as a Senator of the State of Texas, my administration has put razor blades in the rio-grande river
          to defend against illegal immigrants.
          Number 2! there was a time right before the election of President Obama that Texas was 'feared' to be 'turning purple'.
          After Georgia's recent flip and the rapidly changing demographics of the south, texan leadership is now, more than ever before,
@@ -256,6 +259,7 @@ def plot():
         # Close the plot to free up resources
         plt.close(fig)
 
+
 plot()
 
 
@@ -294,6 +298,7 @@ with torch.inference_mode():
 
 ######################################################################
 #
+
 
 def plot(waveforms, spec, sample_rate):
     waveforms = waveforms.cpu().detach()
@@ -360,7 +365,9 @@ checkpoint = torch.hub.load_state_dict_from_url(
     progress=False,
     map_location=device,
 )
-state_dict = {key.replace("module.", ""): value for key, value in checkpoint["state_dict"].items()}
+state_dict = {
+    key.replace("module.", ""): value for key, value in checkpoint["state_dict"].items()
+}
 
 waveglow.load_state_dict(state_dict)
 waveglow = waveglow.remove_weightnorm(waveglow)
@@ -369,7 +376,9 @@ waveglow.eval()
 
 with torch.no_grad():
     waveforms = waveglow.infer(spec)
-torchaudio.save("./dataset_raw/Scripts/output.wav", waveforms.cpu().squeeze(1), sample_rate=22050)
+torchaudio.save(
+    "./dataset_raw/Scripts/output.wav", waveforms.cpu().squeeze(1), sample_rate=22050
+)
 ######################################################################
 #
 
