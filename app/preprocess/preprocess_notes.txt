@@ -1,0 +1,159 @@
+
+⏺ Looking at the preprocessor code, here's the exact execution order and
+  where temp files are written:
+
+  Current Preprocessing Flow & File Locations:
+
+  1. Slicing Phase (preprocess.py lines 312-330)
+
+  slice_dir = 'eric_adams_slices'
+  # Writes to: preprocess/output/{slice_dir}/
+  slices = slice(root + file, file_name, f'preprocess/output/{slice_dir}/')
+  Output: preprocess/output/eric_adams_slices/*.wav
+
+  2. Resampling Phase (preprocess.py lines 332-357)
+
+  input_dir = f'preprocess/output/{slice_dir}'
+  resampled = 'eric_adams'
+  output_path = os.path.join(output_dir + resampled + '_resample_44k/',
+  file_name)
+  # Writes to: preprocess/output/eric_adams_resample_44k/
+  Output: preprocess/output/eric_adams_resample_44k/*.wav
+
+  3. File List Generation (preprocess_flist_config.py lines 31-32)
+
+  parser.add_argument("--train_list", type=str,
+  default="./dataset/filelists/train_colab_adams.txt")
+  parser.add_argument("--val_list", type=str,
+  default="./dataset/filelists/val_colab_adams.txt")
+  Output:
+  - ./dataset/filelists/train_colab_adams.txt
+  - ./dataset/filelists/val_colab_adams.txt
+
+  4. Feature Extraction (preprocess_hubert_f0.py line 138)
+
+  parser.add_argument("--in_dir", type=str,
+  default="dataset/44k/eric_adams")
+  Reads from: dataset/44k/eric_adams/*.wav
+  Writes features alongside: *.soft.pt, *.f0.npy, *.spec.pt, *.vol.npy
+
+  HuggingFace Hub Integration Strategy:
+
+  Option A: Intermediate Caching (Recommended)
+
+  Replace temp directories with HF dataset uploads:
+
+  from huggingface_hub import HfApi, hf_hub_download
+  from datasets import Dataset, Audio
+
+  # After slicing, upload to HF Hub
+  def upload_sliced_audio(slice_dir, repo_id, speaker_name):
+      audio_files = glob(f"{slice_dir}/*.wav")
+      dataset = Dataset.from_dict({
+          "audio": audio_files,
+          "speaker": [speaker_name] * len(audio_files)
+      }).cast_column("audio", Audio())
+
+      dataset.push_to_hub(f"{repo_id}/sliced-{speaker_name}")
+
+  # Later, download for resampling
+  def download_sliced_audio(repo_id, speaker_name, local_dir):
+      dataset = load_dataset(f"{repo_id}/sliced-{speaker_name}")
+      # Process locally or use streaming
+
+  Option B: Direct Processing (Skip Temp Files)
+
+  Combine slicing + resampling in memory:
+
+  def process_audio_stream(input_file, target_sr=44100):
+      # 1. Load and slice in memory
+      audio, sr = librosa.load(input_file, sr=None)
+      chunks = slicer.slice(audio)
+
+      # 2. Resample each chunk immediately
+      processed_chunks = []
+      for chunk in chunks:
+          resampled = librosa.resample(chunk, orig_sr=sr,
+  target_sr=target_sr)
+          if meets_duration_requirements(resampled):
+              processed_chunks.append(resampled)
+
+      # 3. Upload final processed chunks to HF Hub
+      upload_processed_chunks(processed_chunks, repo_id, speaker_name)
+
+  Recommended Approach:
+
+  Skip local temp files entirely and use HF Hub as the pipeline cache:
+
+  1. Raw audio → HF Hub dataset (raw-{speaker})
+  2. Sliced audio → HF Hub dataset (sliced-{speaker})
+  3. Processed features → HF Hub dataset (features-{speaker})
+  4. Final model → HF Hub model repository
+
+  This eliminates all the preprocess/output/ and data/prep/ directories
+  while enabling cloud/local flexibility.
+
+
+  -----
+
+
+  Here’s the correct dependency order (each step produces inputs required by the next):
+
+Prepare config + speaker map
+
+Create/confirm data/44k/spk_map.json (speaker → id).
+
+Prepare the trainer config JSON (e.g. app/configs/44k/config_colab_<speaker>.json).
+
+Produce final WAV chunks (y) — 44.1kHz
+
+Load raw audio, slice (silence-based), trim/normalize, resample to 44.1kHz.
+
+Write directly to: data/44k/<speaker>/wavs/*.wav.
+(No middle “slices” folder needed.)
+
+Generate filelists
+
+Scan data/44k/<speaker>/wavs/*.wav and split into train/val.
+
+Write:
+
+data/prep/filelists/train.txt
+
+data/prep/filelists/val.txt
+(These list the WAV paths that will be featurized/loaded.)
+
+Extract features (sidecars per WAV)
+For every WAV in the filelists, compute and write next to the WAV:
+
+*.soft.pt — content embeddings (c)
+
+*.f0.npy — pitch (f0)
+
+*.spec.pt — linear spectrogram (spec)
+
+*.uv.npy — voiced/unvoiced flags (uv)
+
+*.vol.npy — volume envelope (volume)
+
+Train
+
+Point trainer to:
+
+Config JSON from step 1
+
+Filelists from step 3
+
+Artifacts from steps 2–4 (dataset loader will assemble (c, f0, spec, y, spk, lengths, uv, volume)).
+
+Minimal set the trainer needs (grouped by when they’re ready)
+
+After step 1: data/44k/spk_map.json, app/configs/44k/config_colab_<speaker>.json
+
+After step 2: data/44k/<speaker>/wavs/*.wav
+
+After step 3: data/prep/filelists/train.txt, data/prep/filelists/val.txt
+
+After step 4: *.soft.pt, *.f0.npy, *.spec.pt, *.uv.npy, *.vol.npy (sidecars next to each WAV)
+
+That’s the whole chain—run in order, and you’re ready to call the trainer.

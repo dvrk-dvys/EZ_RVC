@@ -9,7 +9,7 @@ import soundfile
 import torch
 import torchaudio
 
-import utils
+from app.utils import utils
 from inference import slicer
 from models import SynthesizerTrn
 

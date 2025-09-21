@@ -1,0 +1,52 @@
+{
+  "hubertsoft": {
+    "gin_channels": 256,
+    "ssl_dim": 256,
+    "description": "✅ Default — balanced, efficient, great for both singing and speech"
+  },
+  "vec256l9": {
+    "gin_channels": 256,
+    "ssl_dim": 256,
+    "description": "Lightweight alternative — faster, slightly lower quality than hubertsoft"
+  },
+  "vec256l12": {
+    "gin_channels": 256,
+    "ssl_dim": 256,
+    "description": "Deeper 12-layer version — still compact, a bit richer than l9"
+  },
+  "vec768l9": {
+    "gin_channels": 768,
+    "ssl_dim": 768,
+    "description": "Higher dimensional — captures more nuance, slower"
+  },
+  "vec768l12": {
+    "gin_channels": 768,
+    "ssl_dim": 768,
+    "description": "Heavyweight — best detail for complex singing styles, most compute-intensive"
+  },
+  "whisper-ppg": {
+    "gin_channels": 1024,
+    "ssl_dim": 1024,
+    "description": "Multilingual support, very clear for speech transcription tasks"
+  },
+  "whisper-ppg-large": {
+    "gin_channels": 1280,
+    "ssl_dim": 1280,
+    "description": "Larger Whisper — more robust features, slower & heavier"
+  },
+  "cnhubertlarge": {
+    "gin_channels": 1024,
+    "ssl_dim": 1024,
+    "description": "Optimized for Chinese speech, but generalizable to English too"
+  },
+  "dphubert": {
+    "gin_channels": 768,
+    "ssl_dim": 768,
+    "description": "Differentially private HuBERT — for privacy-sensitive data"
+  },
+  "wavlmbase+": {
+    "gin_channels": 768,
+    "ssl_dim": 768,
+    "description": "Microsoft WavLM — good robustness in noisy conditions"
+  }
+}

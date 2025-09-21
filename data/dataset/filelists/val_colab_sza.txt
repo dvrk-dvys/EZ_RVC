@@ -1,0 +1,2 @@
+/content/drive/MyDrive/dataset/44k/sza_singing/SZA_Nobody_Gets_Me_4.wav
+/content/drive/MyDrive/dataset/44k/sza_singing/10_SZA__Normal_Girl_Filtered_Acapella_Vocals_4.wav
