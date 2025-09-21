@@ -10,8 +10,8 @@ import torch
 import torchaudio
 from models import SynthesizerTrn
 
+from app.inference import slicer
 from app.utils import utils
-from inference import slicer
 
 logging.getLogger("numba").setLevel(logging.WARNING)
 logging.getLogger("matplotlib").setLevel(logging.WARNING)

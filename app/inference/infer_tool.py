@@ -19,10 +19,10 @@ import soundfile
 import torch
 import torchaudio
 
+from app.inference import slicer
 from app.models.diffusion import load_model_vocoder
 from app.models.models import SynthesizerTrn
 from app.utils import utils
-from inference import slicer
 
 logging.getLogger("matplotlib").setLevel(logging.WARNING)
 

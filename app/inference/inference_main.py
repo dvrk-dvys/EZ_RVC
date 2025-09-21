@@ -5,11 +5,11 @@ import soundfile
 from pydub import AudioSegment
 from spkmix import spk_mix_map
 
-from inference import infer_tool
-from inference.infer_tool import Svc
+from app.inference import infer_tool
+from app.inference.infer_tool import Svc
 
 logging.getLogger("numba").setLevel(logging.WARNING)
-chunks_dict = infer_tool.read_temp("../../inference/chunks_temp.json")
+chunks_dict = infer_tool.read_temp("chunks_temp.json")
 from app.utils.utils import is_running_in_colab
 
 
