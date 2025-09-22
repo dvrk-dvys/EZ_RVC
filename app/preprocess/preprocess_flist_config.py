@@ -30,21 +30,13 @@ def get_wav_duration(file_path):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--train_list",
-        type=str,
-        default="./dataset/filelists/train_colab_adams.txt",
-        help="path to train list",
+        "--train_list", type=str, default="./dataset/filelists/train_colab_adams.txt", help="path to train list"
     )
     parser.add_argument(
-        "--val_list",
-        type=str,
-        default="./dataset/filelists/val_colab_adams.txt",
-        help="path to val list",
+        "--val_list", type=str, default="./dataset/filelists/val_colab_adams.txt", help="path to val list"
     )
     # parser.add_argument("--source_dir", type=str, default="./dataset/44k", help="path to source dir")
-    parser.add_argument(
-        "--source_dir", type=str, default="dataset/", help="path to source dir"
-    )
+    parser.add_argument("--source_dir", type=str, default="dataset/", help="path to source dir")
     parser.add_argument(
         "--speech_encoder",
         type=str,
@@ -52,17 +44,9 @@ if __name__ == "__main__":
         help="choice a speech encoder|'vec768l12','vec256l9','hubertsoft','whisper-ppg','cnhubertlarge','dphubert','whisper-ppg-large','wavlmbase+'",
     )
     parser.add_argument(
-        "--vol_aug",
-        default=False,
-        action="store_true",
-        help="Whether to use volume embedding and volume augmentation",
+        "--vol_aug", default=False, action="store_true", help="Whether to use volume embedding and volume augmentation"
     )
-    parser.add_argument(
-        "--tiny",
-        default=False,
-        action="store_true",
-        help="Whether to train sovits tiny",
-    )
+    parser.add_argument("--tiny", default=False, action="store_true", help="Whether to train sovits tiny")
     args = parser.parse_args()
 
     config_template = (
@@ -73,23 +57,19 @@ if __name__ == "__main__":
     train = []
     val = []
     idx = 0
-    spk_dict = {}
-    spk_id = 0
+    spkr_dict = {}
+    spkr_id = 0
     # for speaker in tqdm(os.listdir(args.source_dir)):
-    #     spk_dict[speaker] = spk_id
-    #     spk_id += 1
+    #     spkr_dict[speaker] = spkr_id
+    #     spkr_id += 1
     #     wavs = ["/".join([args.source_dir, speaker, i]) for i in os.listdir(os.path.join(args.source_dir, speaker))]
     # Assuming the speaker's data is in the root of args.source_dir
-    spk = "eric_adams"
-    spk_dict = {spk: 0}  # Assign the speaker ID directly
+    spkr = "eric_adams"
+    spkr_dict = {spkr: 0}  # Assign the speaker ID directly
     # wav_path = "/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset_raw/sza_resample_splits"
     # wav_path = "/Users/jordanharris/Code/PycharmProjects/EZ_RVC/dataset/44k/sza"
-    wav_path = "dataset/44k/" + spk
-    wavs = [
-        os.path.join(args.source_dir + "44k/" + spk, i)
-        for i in os.listdir(wav_path)
-        if i.endswith(".wav")
-    ]
+    wav_path = "dataset/44k/" + spkr
+    wavs = [os.path.join(args.source_dir + "44k/" + spkr, i) for i in os.listdir(wav_path) if i.endswith(".wav")]
 
     # wavs = ''
     new_wavs = []
@@ -97,9 +77,7 @@ if __name__ == "__main__":
         if not file.endswith("wav"):
             continue
         if not pattern.match(file):
-            logger.warning(
-                f"文件名{file}中包含非字母数字下划线，可能会导致错误。（也可能不会）"
-            )
+            logger.warning(f"文件名{file}中包含非字母数字下划线，可能会导致错误。（也可能不会）")
         if get_wav_duration(file) < 0.3:
             logger.info("Skip too short audio:" + file)
             continue
@@ -126,12 +104,12 @@ if __name__ == "__main__":
     #
     #
     # d_config_template = du.load_config("preprocess/configs_template/diffusion_template.yaml")
-    # d_config_template["model"]["n_spk"] = spk_id
+    # d_config_template["model"]["n_spkr"] = spkr_id
     # d_config_template["data"]["encoder"] = args.speech_encoder
-    # d_config_template["spk"] = spk_dict
+    # d_config_template["spkr"] = spkr_dict
     #
-    # config_template["spk"] = spk_dict
-    # config_template["model"]["n_speakers"] = len(spk_dict)
+    # config_template["spkr"] = spkr_dict
+    # config_template["model"]["n_speakers"] = len(spkr_dict)
     # config_template["model"]["speech_encoder"] = args.speech_encoder
     #
     # if args.speech_encoder == "vec768l12" or args.speech_encoder == "dphubert" or args.speech_encoder == "wavlmbase+":

@@ -27,6 +27,7 @@ repos:
     rev: v8.28.0
     hooks:
     -   id: gitleaks                 # Comprehensive secret detection (API keys, tokens, passwords)
+    stages: [ pre-commit, pre-push ]
 
 -   repo: https://github.com/psf/black
     rev: 25.1.0

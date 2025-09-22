@@ -69,7 +69,7 @@
     "use_automatic_f0_prediction": true,
     "use_transformer_flow": false
   },
-  "spk": {
+  "spkr": {
     "sza": 0,
     "huiyu": 1,
     "nen": 2,

@@ -1,0 +1,9 @@
+[tool.black]
+line-length = 120
+skip-string-normalization = true
+target-version = ["py310"]
+# Don't reformat function calls to multiple lines so aggressively
+skip-magic-trailing-comma = true
+[tool.isort]
+profile = "black"
+line_length = 120

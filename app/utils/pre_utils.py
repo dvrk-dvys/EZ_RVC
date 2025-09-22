@@ -6,9 +6,7 @@ import librosa
 import soundfile as sf
 
 
-def gen_spk_config(
-    speaker_name, speech_encoder="hubertsoft", template_name="config_template.json"
-):
+def gen_spkr_config(speaker_name, speech_encoder="hubertsoft", template_name="config_template.json"):
     """
     Generate speaker-specific config from template.
 
@@ -40,7 +38,7 @@ def gen_spk_config(
     config["data"]["validation_files"] = f"./data/prep/filelists/val_{speaker_name}.txt"
     config["model"]["speech_encoder"] = speech_encoder
     config["model"]["n_speakers"] = 1
-    config["spk"] = {speaker_name: 0}
+    config["spkr"] = {speaker_name: 0}
 
     # Adjust encoder-specific settings
     if speech_encoder in encoder_settings:
@@ -79,7 +77,7 @@ if __name__ == "__main__":
     with open(config_path, "r") as f:
         config = json.load(f)
 
-    assert config["spk"][speaker] == 0
+    assert config["spkr"][speaker] == 0
     assert speaker in config["data"]["training_files"]
     assert config["model"]["speech_encoder"] == "hubertsoft"
 

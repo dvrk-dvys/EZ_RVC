@@ -101,7 +101,7 @@
     "use_automatic_f0_prediction": true,
     "use_transformer_flow": false
   },
-  "spk": {
+  "spkr": {
     "nat_king_cole": 0
   }
 }

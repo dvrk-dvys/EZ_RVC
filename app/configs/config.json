@@ -99,7 +99,7 @@
     "flow_share_parameter": false,
     "use_automatic_f0_prediction": true
   },
-  "spk": {
+  "spkr": {
     "sza": 0
   }
 }
